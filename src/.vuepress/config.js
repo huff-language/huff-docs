@@ -1,7 +1,7 @@
 const { description } = require("../../package");
 
 module.exports = {
-  title: "Huff Documentation",
+  title: "Huff Language",
   description: description,
   homepage: "http://localhost:3000/",
 
@@ -14,10 +14,12 @@ module.exports = {
     ],
   ],
 
+  theme: "default-prefers-color-scheme",
   themeConfig: {
+    overrideTheme: "dark",
     docsDir: "/",
     nav: [
-      { text: "Home", link: "/" },
+      { text: "Home", link: "/home/" },
       { text: "Get Started", link: "/get-started/" },
       { text: "Tutorial", link: "/tutorial/overview/" },
     ],
