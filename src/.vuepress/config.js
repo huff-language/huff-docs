@@ -3,11 +3,15 @@ const { description } = require("../../package");
 module.exports = {
   title: "Huff Documentation",
   description: description,
+  homepage: "http://localhost:3000/",
 
   head: [
     ["meta", { name: "theme-color", content: "#c70202" }],
     ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
-    ["meta", { name: "apple-mobile-web-app-status-bar-style", content: "black" }],
+    [
+      "meta",
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" },
+    ],
   ],
 
   themeConfig: {
