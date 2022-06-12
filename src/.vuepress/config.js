@@ -3,7 +3,7 @@ const { description } = require("../../package");
 module.exports = {
   title: "Huff Language",
   description: description,
-  homepage: "http://localhost:3000/",
+  homepage: "http://docs.huff.sh/",
 
   head: [
     ["meta", { name: "theme-color", content: "#c70202" }],
@@ -19,9 +19,11 @@ module.exports = {
     overrideTheme: "dark",
     docsDir: "/",
     nav: [
-      { text: "Home", link: "/home/" },
+      { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started/" },
-      { text: "Tutorial", link: "/tutorial/overview/" },
+      { text: "Tutorials", link: "/tutorial/overview/" },
+      { text: "Resources", link: "/resources/" },
+      { text: "Contribute", link: "/contribute/" },
     ],
     sidebarDepth: 10,
     sidebar: {
@@ -31,10 +33,9 @@ module.exports = {
           collapsable: false,
         },
       ],
-
       "/tutorial/": [
         {
-          title: "Tutorial",
+          title: "Tutorials",
           collapsable: false,
           children: [
             "/tutorial/overview/",
@@ -42,6 +43,18 @@ module.exports = {
             "/tutorial/evm-basics/",
             "/tutorial/project-template/",
           ],
+        },
+      ],
+      "/resources/": [
+        {
+          title: "Resources",
+          collapsable: false,
+        },
+      ],
+      "/contribute/": [
+        {
+          title: "Contribute",
+          collapsable: false,
         },
       ],
     },

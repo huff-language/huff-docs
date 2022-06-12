@@ -1,7 +1,7 @@
 {
   "name": "huff-language-docs",
   "version": "0.0.1",
-  "description": "Huff Language documentation",
+  "description": "Documentation for the Huff Language",
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src"
