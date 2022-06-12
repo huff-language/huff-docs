@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Understanding the EVM | Huff Language</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="Documentation for the Huff Language">
+    <meta name="theme-color" content="#c70202">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/assets/css/0.styles.f2e4eac1.css" as="style"><link rel="preload" href="/assets/js/app.cb23c072.js" as="script"><link rel="preload" href="/assets/js/2.8a1bde3f.js" as="script"><link rel="preload" href="/assets/js/11.22f9da2d.js" as="script"><link rel="prefetch" href="/assets/js/10.53f59cb8.js"><link rel="prefetch" href="/assets/js/12.39bf0d0b.js"><link rel="prefetch" href="/assets/js/13.70d111f8.js"><link rel="prefetch" href="/assets/js/14.66aaee20.js"><link rel="prefetch" href="/assets/js/3.5041d4b0.js"><link rel="prefetch" href="/assets/js/4.25622e79.js"><link rel="prefetch" href="/assets/js/5.77aa7fd5.js"><link rel="prefetch" href="/assets/js/6.1831b8d9.js"><link rel="prefetch" href="/assets/js/7.c4b6bff9.js"><link rel="prefetch" href="/assets/js/8.c7c358df.js"><link rel="prefetch" href="/assets/js/9.94d6e800.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.f2e4eac1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Huff Language</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/get-started/" class="nav-link">
+  Get Started
+</a></div><div class="nav-item"><a href="/tutorial/overview/" class="nav-link">
+  Tutorials
+</a></div><div class="nav-item"><a href="/resources/" class="nav-link">
+  Resources
+</a></div><div class="nav-item"><a href="/contribute/" class="nav-link">
+  Contribute
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/get-started/" class="nav-link">
+  Get Started
+</a></div><div class="nav-item"><a href="/tutorial/overview/" class="nav-link">
+  Tutorials
+</a></div><div class="nav-item"><a href="/resources/" class="nav-link">
+  Resources
+</a></div><div class="nav-item"><a href="/contribute/" class="nav-link">
+  Contribute
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Tutorials</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tutorial/overview/" class="sidebar-link">Overview</a></li><li><a href="/tutorial/setup/" class="sidebar-link">Setup</a></li><li><a href="/tutorial/evm-basics/" aria-current="page" class="active sidebar-link">Understanding the EVM</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tutorial/evm-basics/#technical" class="sidebar-link">Technical</a></li></ul></li><li><a href="/tutorial/project-template/" class="sidebar-link">Using the Template</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="understanding-the-evm"><a href="#understanding-the-evm" class="header-anchor">#</a> Understanding the EVM</h1> <p>The Ethereum Virtual Machine, or EVM for short, is the brains behind Ethereum. It's a computation engine, as the name suggests, similar to the virtual machines in Microsoft's.NET Framework or interpreters for other bytecode-compiled programming languages like Java.</p> <p>The EVM is the part of the Ethereum protocol that controls the deployment and execution of smart contracts. It can be compared to a global decentralized computer with millions of executable things (contracts), each with its own permanent data store.</p> <h2 id="technical"><a href="#technical" class="header-anchor">#</a> Technical</h2> <blockquote><p><strong><em>NOTE:</em></strong> This tutorial assumes that you are somewhat familiar with Solidity and therefore understand the basics of Ethereum development, including contracts, state, external calls, etc...</p></blockquote> <p>The EVM runs as a stack machine with a depth of 1024 items. Each item is a 256 bit word (32 bytes), which was chosen due its compatibility with 256-bit encryption. Since the EVM is a stack-based VM, you typically PUSH data onto the top of it, POP data off, and apply instructions like ADD or MUL to the first few values that lay on top of it.</p> <p align="center"><img src="https://i.imgur.com/q6iEY7Z.png" width="640px"></p> <figcaption align="center"><b>Fig.1 - Push/Pop Example from <i> &quot;Playdate with the EVM&quot;</i> by Femboy Capital</b></figcaption> <p>Here's an example of what pushing to and popping from the stack looks like. On the left, we see an element, <code>e</code>, being pushed to the top of stack and on the right, we see how <code>e</code> is removed or &quot;popped&quot; from it.</p> <p>It's important to note that, while <code>e</code> was the last element to be pushed onto the stack (it is preceded by a, b, c, d), it is the first element to be removed when a pop occurs. This is because stacks follow the <strong>LIFO</strong> (Last In, First Out) principle, where the last element to be added is the first element to be removed.</p> <p align="center"><img src="https://i.imgur.com/SYJBUBS.png" width="640px"></p> <figcaption align="center"><b>Fig.2 - MUL Opcode Example from <i> &quot;Playdate with the EVM&quot;</i> by Femboy Capital</b></figcaption> <p>Opcodes will often use stack elements as input, always taking the top (most recently added) elements. In the example above, we start with a stack consisting of <code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code>. If you use the <code>MUL</code> opcode (which multiplies the two values at the top of the stack), <code>c</code> and <code>d</code> get popped from the stack and replaced by their product.</p> <p>If this confuses you, don't worry! While reading about the EVM will teach you the basics, actually writing assembly serves as the best way to get the hang of it (and it's the most fun). Let's dive into some simple projects.</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/tutorial/setup/" class="prev">
+        Setup
+      </a></span> <span class="next"><a href="/tutorial/project-template/">
+        Using the Template
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.cb23c072.js" defer></script><script src="/assets/js/2.8a1bde3f.js" defer></script><script src="/assets/js/11.22f9da2d.js" defer></script>
+  </body>
+</html>
