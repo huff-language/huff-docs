@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "add": "^2.0.6",
-    "pug": "^3.0.2",
     "vuepress-theme-default-prefers-color-scheme": "^2.0.0",
     "yarn": "^1.22.19"
   }
