@@ -1,7 +1,7 @@
 {
   "name": "huff-language-docs",
   "version": "0.0.1",
-  "description": "Huff Language documentation",
+  "description": "Documentation for the Huff Language",
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src"
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "add": "^2.0.6",
-    "pug": "^3.0.2",
     "vuepress-theme-default-prefers-color-scheme": "^2.0.0",
     "yarn": "^1.22.19"
   }

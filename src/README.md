@@ -1,5 +1,28 @@
-<script language="javascript">
+---
+home: true
+icon: home
+title: Home
+heroImage: /huff.png
+heroText: The Huff Docs.
 
-window.location.href = "http://localhost:3000"
+# features:
+#   - title: Getting Started
+#     icon: info-square
+#     details: An introduction to Huff.
+#     link: /get-started/
 
-</script>
+#   - title: Tutorials
+#     icon: code
+#     details: Interactive tutorials for users and developers of Huff
+#     link: /tutorial/overview/
+
+#   - title: Resources
+#     icon: hammer
+#     details: Documentation, Third-party tools, Examples, and other useful resources.
+#     link: /resources/
+
+#   - title: Contribute
+#     icon: hands-helping
+#     details: Check out the Optimism community and join the conversation.
+#     link: /contribute/
+# ---

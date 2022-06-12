@@ -2,6 +2,19 @@
 
 * {
   text-decoration-color: $accentColor !important;
+  background-color: black !important;
+}
+
+:root {
+  background-color: black;
+}
+
+code {
+  background-color: $lightBackgroundColor !important;
+}
+
+.language-shell, .language-javascript, .language-plaintext, .token, .function {
+  background-color: $lightBackgroundColor !important;
 }
 
 h1 {
@@ -20,10 +33,12 @@ h2 {
   font-family: "Roboto";
   text-decoration: underline;
   font-style: italic;
+  background-color: black;
 }
 
 .sidebar .sidebar-heading {
   opacity: 1 !important;
+  background-color: black !important;
 }
 
 .home .hero {
@@ -47,7 +62,7 @@ h2 {
 }
 
 .home .hero .action-button:hover {
-  -webkit-box-shadow: 5px 5px 0px -1px $accentColor; 
+  -webkit-box-shadow: 5px 5px 0px -1px $accentColor;
   box-shadow: 5px 5px 0px -1px $accentColor;
 }
 
