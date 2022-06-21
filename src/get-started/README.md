@@ -23,17 +23,18 @@ Here's how to create the contract bytecode to output _Hello, World!_ in Huff.
 1. Create a file called `hello-world.huff` and enter the following content:
 
    ```javascript
-   #define function add(uint256,uint256) returns (uint256)
+   #define function add(uint256,uint256) nonpayable returns (uint256)
 
    #define macro MAIN() = takes(0) returns (1) {
-   // Load our numbers from calldata and add them together.
-   0x04 calldataload // [number1]
-   0x24 calldataload // [number2]
-   add               // [number1+number2]
+      // Load our numbers from calldata and add them together.
+      0x04 calldataload // [number1]
+      0x24 calldataload // [number2]
+      add               // [number1+number2]
 
-   // Return our new number.
-   0x00 mstore // Store our number in memory.
-   0x20 0x00 return // Return it.
+      // Return our new number.
+      0x00 mstore // Store our number in memory.
+      0x20 0x00 return // Return it.
+   }
    ```
 
 1. Use `huffc` to compile the contract and output bytecode:
