@@ -3,7 +3,7 @@ const { description } = require("../../package");
 module.exports = {
   title: "Huff Language",
   description: description,
-  homepage: "http://docs.huff.sh/",
+  //homepage: "http://docs.huff.sh/",
 
   head: [
     ["meta", { name: "theme-color", content: "#c70202" }],
@@ -20,7 +20,7 @@ module.exports = {
     docsDir: "/",
     nav: [
       { text: "Home", link: "/" },
-      { text: "Get Started", link: "/get-started/" },
+      { text: "Get Started", link: "/get-started/overview/" },
       { text: "Tutorials", link: "/tutorial/overview/" },
       { text: "Resources", link: "/resources/" },
       { text: "Contribute", link: "/contribute/" },
@@ -31,6 +31,10 @@ module.exports = {
         {
           title: "Get Started",
           collapsable: false,
+          children: [
+            "/get-started/overview/",
+            "/get-started/project-quickstart/",
+          ],
         },
       ],
       "/tutorial/": [
