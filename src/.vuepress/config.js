@@ -34,6 +34,7 @@ module.exports = {
           children: [
             "/get-started/overview/",
             "/get-started/project-quickstart/",
+            "/get-started/cli/"
           ],
         },
       ],
