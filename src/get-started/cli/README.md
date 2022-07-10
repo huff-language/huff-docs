@@ -57,7 +57,7 @@ huffc ./src/ERC20.huff -b
 ```
 
 ### `-d` Output directory
-Default: `./artifacts`
+Arguments: `<OUTPUT_DIR>`, Default: `./artifacts`
 
 Passing the `-d` flag allows you to designate the directory that the `Artifact`
 JSON file will be exported to.
@@ -81,10 +81,20 @@ huffc ./src/ERC20.huff -g
 ```
 
 ### `-i` Inputs
-TODO
+Arguments: `[CONSTRUCTOR_ARGS]`
+
+Passing the `-i` flag allows you to set the constructor arguments for the
+contract that is being compiled. All inputs should be separated by a comma.
+If you'd like to input the constructor arguments interactively instead,
+use the `-n` flag.
+
+Example (assuming `ERC20.huff`'s constructor accepts a String and a uint):
+```shell
+huffc ./src/ERC20.huff -i "TestToken", 18
+```
 
 ### `-n` Interactive Inputs
-Passing the `-n` flag will allow you to input constructor arguments
+Passing the `-n` flag allows you to input constructor arguments
 interactively through the CLI rather than via the `-i` flag.
 
 Example:
@@ -93,13 +103,26 @@ huffc ./src/ERC20.huff -n
 ```
 
 ### `-o` Output
-TODO
+Arguments: `<FILE_PATH>`
 
-### `-p` Print
-Unused
+Passing the `-o` flag allows you to export the artifact to a specific file
+rather than a folder.
+
+Example:
+```shell
+huffc ./src/ERC20.huff -o ./artifact.json
+```
 
 ### `-s` Source Path
-TODO
+Arguments: `<CONTRACTS_FOLDER>`, Default: `./contracts`
+
+Passing the `-s` flag allows you to change the directory that the compiler scans
+for Huff contracts.
+
+Example:
+```shell
+huffc -s ./src/
+```
 
 ### `-v` Verbose Output
 Passing the `-v` flag will tell the compiler to print verbose output during
