@@ -33,6 +33,7 @@ module.exports = {
           collapsable: false,
           children: [
             "/get-started/overview/",
+            "/get-started/huff-by-example/",
             "/get-started/project-quickstart/",
           ],
         },
