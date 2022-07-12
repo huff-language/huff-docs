@@ -23,7 +23,7 @@ module.exports = {
       { text: "Get Started", link: "/get-started/overview/" },
       { text: "Tutorials", link: "/tutorial/overview/" },
       { text: "Resources", link: "/resources/" },
-      { text: "Contribute", link: "/contribute/" },
+      { text: "Contribute", link: "/contribute/overview/" },
     ],
     sidebarDepth: 10,
     sidebar: {
@@ -60,6 +60,9 @@ module.exports = {
         {
           title: "Contribute",
           collapsable: false,
+          children: [
+            "/contribute/overview/",
+          ],
         },
       ],
     },
