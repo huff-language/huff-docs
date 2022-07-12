@@ -112,8 +112,9 @@ the control flow of Huff contracts begin. The `CONSTRUCTOR` macro, while not req
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
 
-#### Macro/Function Signature
-TODO
+#### Macro Signature
+
+Since macros are inlined at compile-time, they don't have signatures and cannot be called externally.
 
 #### Macro Arguments
 
@@ -224,6 +225,13 @@ if it is a small / inexpensive set of operations. However, for larger contracts
 where certain logic is commonly reused, functions can help reduce the size of 
 the contract's bytecode to below the Spurious Dragon limit.
 
+#### Function Signature
+
+TODO
+
+#### Function Arguments
+
+TODO
 
 #### Example
 
