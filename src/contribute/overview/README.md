@@ -1,6 +1,8 @@
 # Contributing
 
 ## Overview
+> Contributions are welcome for all huff-language ecosystem repositories, with [huff-rs](https://github.com/huff-language/huff-rs) being the primary repository for Huff Language Syntax and Compilation.
+    
 Welcome, and thanks for having an interest in contributing to the Huff Language and related repositories!
 
 All contributions are welcome! We want to make contributing to this project as easy and transparent as possible, whether it's:
