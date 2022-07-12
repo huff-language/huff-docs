@@ -11,7 +11,7 @@ with the EVM.
 If you are new to low-level EVM programming, please read the
 [Tutorials](/tutorial/overview) section of the docs before diving into
 Huff development. If you run into any issues, please feel free to come ask
-the community questions on [Discord](https://discord.gg)!
+the community questions on [Discord](https://discord.gg/C3gTvkFNRR)!
 
 ## Defining your Interface
 
@@ -179,17 +179,14 @@ Macros can accept arguments to be "called" inside the macro or passed as a refer
 
 #define macro MAIN() = takes (0) returns (0) {
     // Get the function signature from the calldata
-    0x00 calldataload        // [calldata]
+    0x00 calldataload        // [calldata @ 0x00]
     0xE0 shr                 // [func_sig (calldata @ 0x00 >> 0xE0)]
-
-    // Load first element in the calldata
-    0x04 calldataload        // [input_num]
 
     // Check if the function signature in the calldata is
     // a match to our `addWord` function definition.
     // More about the `__FUNC_SIG` builtin in the `Builtin Functions`
     // section.
-    dup1 __FUNC_SIG(addWord) // [func_sig(addWord), func_sig]
+    __FUNC_SIG(addWord)      // [func_sig(addWord), func_sig]
     eq                       // [func_sig(addWord) == func_sig]
     add_word jumpi           // []
 
