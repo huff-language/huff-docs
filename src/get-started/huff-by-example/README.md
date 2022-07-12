@@ -283,7 +283,7 @@ TODO
     // Starting stack: [x, y, denominator, return_pc]
 
     // function code ...
-    
+
     // Because the compiler knows how many stack items the function returns (N),
     // it inserts N stack swaps in ascending order from
     // SWAP1 (0x90) -> SWAP1 (0x90) + N - 1 in order to move the return_pc
@@ -302,10 +302,13 @@ TODO
 ```
 
 ## Builtin Functions
+
 TODO
 
 ## Jump Tables
+
 TODO
 
 ## Code Tables
+
 TODO
