@@ -14,6 +14,7 @@ Huff development. If you run into any issues, please feel free to come ask
 the community questions on [Discord](https://discord.gg)!
 
 ## Defining your Interface
+
 While defining an interface is not a necessary step, `functions` and `events`
 can be defined in Huff contracts for two purposes: To be used as arguments 
 for the `__FUNC_SIG` and `__EVENT_HASH` builtins, and to generate a Solidity 
@@ -25,13 +26,15 @@ function interfaces should only be defined for externally facing functions.
 Events can contain `indexed` and non-indexed values.
 
 #### Example
+
 ```plaintext
 #define function testFunction(uint256, bytes32) view returns (bytes memory)
 
-#define event TestEvent(address indexed, uint256) 
+#define event TestEvent(address indexed, uint256)
 ```
 
 ## Constants
+
 Constants in Huff contracts are not included in the contract's storage; Instead,
 they are able to be called within the contract at compile time. Constants
 can either be bytes (32 max) or a `FREE_STORAGE_POINTER`. A `FREE_STORAGE_POINTER`
@@ -40,17 +43,28 @@ constant will always represent an unused storage slot in the contract.
 In order to push a constant to the stack, use bracket notation: `[CONSTANT]`
 
 #### Example
+
+**Constant Declaration**
 ```plaintext
 #define constant NUM = 0x420
 #define constant HELLO_WORLD = 0x48656c6c6f2c20576f726c6421
 #define constant FREE_STORAGE = FREE_STORAGE_POINTER()
 ```
 
+**Constant Usage**
+(without loss of generality, let's say the constant `NUM` holds 0x420 from the above example)
+```plaintext
+                    // [] - an empty stack
+[NUM]               // [0x420] - the constant's value is pushed to the stack
+```
+
 ## Jump Labels
+
 Jump Labels are a simple abstraction included into the language to make defining
 and referring to `JUMPDEST`s more simple for the developer.
 
 #### Example
+
 ```plaintext
 #define macro MAIN() = takes (0) returns (0) {
     // Store "Hello, World!" in memory
@@ -83,6 +97,7 @@ important to understand the difference between the two, and when to use one
 over the other.
 
 ### Macros
+
 Most of the time, Huff developers should opt to use macros. Each time a macro is invoked,
 the code within it is placed at the point of invocation. This is efficient in
 terms of runtime gas cost due to not having to jump to and from the macro's code, 
@@ -90,25 +105,41 @@ but it can quickly increase the size of the contract's bytecode if it is used co
 throughout.
 
 #### Constructor and Main
+
 `MAIN` and `CONSTRUCTOR` are two important macros that serve special purposes. When
 your contract is called, the `MAIN` macro will be the fallback, and it is commonly where
 the control flow of Huff contracts begin. The `CONSTRUCTOR` macro, while not required,
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
 
-#### Macro/Function Signature
-TODO
+#### Macro Signature
 
-#### Macro/Function Arguments
-TODO
+Since macros are inlined at compile-time, they don't have signatures and cannot be called externally.
+
+#### Macro Arguments
+
+Macros can accept arguments to be "called" inside the macro or passed as a reference. Macro arguments may be one of: label, opcode, literal, or a constant. Since macros are inlined at compile-time, the arguments are not evaluated at runtime and are instead inlined as well.
 
 #### Example
+
 ```plaintext
 // Define the contract's interface
 #define function addWord(uint256) pure returns (uint256)
 
-// Get a free storage slot to store the owner 
+// Get a free storage slot to store the owner
 #define constant OWNER = FREE_STORAGE_POINTER()
+
+// Define the event we wish to emit
+#define event WordAdded(uint256 initial, uint256 increment)
+
+// Macro to emit an event that a word has been added
+#define macro emitWordAdded(increment) = takes (1) returns (0) {
+    // input stack: [initial]
+    <increment>              // [increment, initial]
+    __EVENT_HASH(WordAdded)  // [sig, increment, initial]
+    0x00 0x00                // [mem_start, mem_end, sig, increment, initial]
+    log3                     // []
+}
 
 // Only owner function modifier
 #define macro ONLY_OWNER() = takes (0) returns (0) {
@@ -130,6 +161,13 @@ TODO
     // Enforce that the caller is the owner. The code of the
     // `ONLY_OWNER` macro will be pasted at this invocation. 
     ONLY_OWNER()
+
+    // Call our helper macro that emits an event when a word is added
+    // Here we pass a literal that represents how much we increment the word by.
+    // NOTE: We need to duplicate the input number on our stack since
+    //       emitWordAdded takes 1 stack item and returns 0
+    dup1                     // [input_num, input_num]
+    emitWordAdded(0x20)      // [input_num]
 
     // NOTE: 0x20 is automatically pushed to the stack, it is assumed to be a 
     // literal by the compiler.
@@ -170,6 +208,7 @@ TODO
 ```
 
 ### Functions
+
 Functions look extremely similar to macros, but behave somewhat differently.
 Instead of the code being inserted at each invocation, the compiler moves
 its code to the end of the runtime bytecode, and a jump to and from that
@@ -186,8 +225,16 @@ if it is a small / inexpensive set of operations. However, for larger contracts
 where certain logic is commonly reused, functions can help reduce the size of 
 the contract's bytecode to below the Spurious Dragon limit.
 
+#### Function Signature
+
+TODO
+
+#### Function Arguments
+
+TODO
 
 #### Example
+
 ```plaintext
 #define macro MUL_DIV_DOWN_WRAPPER() = takes (0) returns (0) {
     0x44 calldataload // [denominator]
@@ -236,7 +283,7 @@ the contract's bytecode to below the Spurious Dragon limit.
     // Starting stack: [x, y, denominator, return_pc]
 
     // function code ...
-    
+
     // Because the compiler knows how many stack items the function returns (N),
     // it inserts N stack swaps in ascending order from
     // SWAP1 (0x90) -> SWAP1 (0x90) + N - 1 in order to move the return_pc
@@ -255,10 +302,13 @@ the contract's bytecode to below the Spurious Dragon limit.
 ```
 
 ## Builtin Functions
+
 TODO
 
 ## Jump Tables
+
 TODO
 
 ## Code Tables
+
 TODO
