@@ -1,22 +1,80 @@
 # Huff by Example
 
-Huff by Example is an effort to provide a thorough explanation of each
-feature of the Huff language, along with code-snippet examples of how,
-when, where, and why to use each one. The snippets here are heavily 
-commentated, but HBC does assume some prior knowledge of working with
-the EVM.
-
 ## Introduction
-TODO
+
+Huff by Example is an effort to provide a thorough explanation of each
+feature of the Huff language, along with code-snippet examples detailing how,
+when, where, and why to use each one. The snippets here are heavily 
+commentated, but this section does assume some prior experience working 
+with the EVM.
+
+If you are new to low-level EVM programming, please read the
+[Tutorials](/tutorial/overview) section of the docs before diving into
+Huff development. If you run into any issues, please feel free to come ask
+the community questions on [Discord](https://discord.gg)!
 
 ## Defining your Interface
-TODO
+While defining an interface is not a necessary step, `functions` and `events`
+can be defined in Huff contracts for two purposes: To be used as arguments 
+for the `__FUNC_SIG` and `__EVENT_HASH` builtins, and to generate a Solidity 
+Interface / Contract ABI.
+
+Functions can be of type `view`, `pure`, `payable` or `nonpayable`, and
+function interfaces should only be defined for externally facing functions.
+
+Events can contain `indexed` and non-indexed values.
+
+#### Example
+```plaintext
+#define function testFunction(uint256, bytes32) view returns (bytes memory)
+
+#define event TestEvent(address indexed, uint256) 
+```
 
 ## Constants
-TODO
+Constants in Huff contracts are not included in the contract's storage; Instead,
+they are able to be called within the contract at compile time. Constants
+can either be bytes (32 max) or a `FREE_STORAGE_POINTER`. A `FREE_STORAGE_POINTER`
+constant will always represent an unused storage slot in the contract.
+
+In order to push a constant to the stack, use bracket notation: `[CONSTANT]`
+
+#### Example
+```plaintext
+#define constant NUM = 0x420
+#define constant HELLO_WORLD = 0x48656c6c6f2c20576f726c6421
+#define constant FREE_STORAGE = FREE_STORAGE_POINTER()
+```
 
 ## Jump Labels
-TODO
+Jump Labels are a simple abstraction included into the language to make defining
+and referring to `JUMPDEST`s more simple for the developer.
+
+#### Example
+```plaintext
+#define macro MAIN() = takes (0) returns (0) {
+    // Store "Hello, World!" in memory
+    0x48656c6c6f2c20576f726c6421
+    0x00 mstore // ["Hello, World!"]
+
+    // Jump to success label, skipping the revert statement
+    success     // [success_label_pc, "Hello, World!"]
+    jump        // ["Hello, World!"]
+
+    // Revert if this point is reached
+    0x00 0x00 revert
+
+    // Labels are defined within macros or functions, and are designated
+    // by a word followed by a colon. Note that while it may appear as if
+    // labels are scoped code blocks due to the indentation, they are simply
+    // destinations to jump to in the bytecode. If operations exist below a label,
+    // they will be executed unless the program counter is altered or execution is
+    // halted by a `revert`, `return`, `stop`, or `selfdestruct` opcode.
+    success:
+        0x00 mstore
+        0x20 0x00 return
+}
+```
 
 ## Macros and Functions
 
@@ -25,7 +83,7 @@ important to understand the difference between the two, and when to use one
 over the other.
 
 ### Macros
-Most of the time, Huff developers opt to use macros. Each time a macro is invoked,
+Most of the time, Huff developers should opt to use macros. Each time a macro is invoked,
 the code within it is placed at the point of invocation. This is efficient in
 terms of runtime gas cost due to not having to jump to and from the macro's code, 
 but it can quickly increase the size of the contract's bytecode if it is used commonly
@@ -37,6 +95,12 @@ your contract is called, the `MAIN` macro will be the fallback, and it is common
 the control flow of Huff contracts begin. The `CONSTRUCTOR` macro, while not required,
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
+
+#### Macro/Function Signature
+TODO
+
+#### Macro/Function Arguments
+TODO
 
 #### Example
 ```plaintext
