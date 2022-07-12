@@ -2,8 +2,7 @@
 
 While most of the time you will be compiling your Huff contracts in a foundry
 project using the [foundry-huff](https://github.com/huff-language/foundry-huff)
-library, the compiler's CLI offers some additional configuration options as well
-as some useful utilities.
+library, the [compiler](https://github.com/huff-language/huff-rs)'s CLI offers some additional configuration options as well as some useful utilities.
 
 ## Options
 
@@ -31,7 +30,8 @@ OPTIONS:
 ```
 
 ### `-a` Artifacts
-Passing the `-a` flag will generate an `Artifact` JSON file in the `./artifacts`
+
+Passing the `-a` flag will generate `Artifact` JSON file(s) in the `./artifacts`
 directory or wherever the `-d` flag designates. The `Artifact` JSON contains
 the following information:
 * File
@@ -48,6 +48,7 @@ huffc ./src/ERC20.huff -a
 ```
 
 ### `-b` Bytecode
+
 Passing the `-b` flag will tell the compiler to log the bytecode generated during
 the compilation process to the console.
 
@@ -57,6 +58,7 @@ huffc ./src/ERC20.huff -b
 ```
 
 ### `-d` Output directory
+
 Arguments: `<OUTPUT_DIR>`, Default: `./artifacts`
 
 Passing the `-d` flag allows you to designate the directory that the `Artifact`
@@ -68,6 +70,7 @@ huffc ./src/ERC20.huff -d ./my_artifacts
 ```
 
 ### `-g` Interface
+
 Passing the `-g` flag will generate a Solidity interface for the Huff contract
 provided. This interface is generated based off of the function and event
 definitions within the contract.
@@ -81,6 +84,7 @@ huffc ./src/ERC20.huff -g
 ```
 
 ### `-i` Inputs
+
 Arguments: `[CONSTRUCTOR_ARGS]`
 
 Passing the `-i` flag allows you to set the constructor arguments for the
@@ -94,6 +98,7 @@ huffc ./src/ERC20.huff -i "TestToken", 18
 ```
 
 ### `-n` Interactive Inputs
+
 Passing the `-n` flag allows you to input constructor arguments
 interactively through the CLI rather than via the `-i` flag.
 
@@ -103,6 +108,7 @@ huffc ./src/ERC20.huff -n
 ```
 
 ### `-o` Output
+
 Arguments: `<FILE_PATH>`
 
 Passing the `-o` flag allows you to export the artifact to a specific file
@@ -114,6 +120,7 @@ huffc ./src/ERC20.huff -o ./artifact.json
 ```
 
 ### `-s` Source Path
+
 Arguments: `<CONTRACTS_FOLDER>`, Default: `./contracts`
 
 Passing the `-s` flag allows you to change the directory that the compiler scans
@@ -125,6 +132,7 @@ huffc -s ./src/
 ```
 
 ### `-v` Verbose Output
+
 Passing the `-v` flag will tell the compiler to print verbose output during
 the compilation process. This output can be useful for debugging contract
 as well as compiler errors.
@@ -135,4 +143,5 @@ huffc ./src/ERC20.huff -v
 ```
 
 ### `-z` Optimize
-Not yet implemented.
+
+Not yet implemented in [the compiler](https://github.com/huff-language/huff-rs).
