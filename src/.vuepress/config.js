@@ -21,13 +21,16 @@ module.exports = {
   theme: "default-prefers-color-scheme",
   themeConfig: {
     overrideTheme: "dark",
-    docsDir: "/",
+    ostname: 'https://docs.huff.sh',
+    docsRepo: 'https://github.com/huff-language/huff-docs',
+    docsBranch: 'main',
+    docsDir: "src",
     nav: [
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started/overview/" },
       { text: "Tutorials", link: "/tutorial/overview/" },
       { text: "Resources", link: "/resources/" },
-      { text: "Contribute", link: "/contribute/" },
+      { text: "Contribute", link: "/contribute/overview/" },
     ],
     sidebarDepth: 10,
     sidebar: {
@@ -64,6 +67,9 @@ module.exports = {
         {
           title: "Contribute",
           collapsable: false,
+          children: [
+            "/contribute/overview/",
+          ],
         },
       ],
     },
