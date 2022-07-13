@@ -14,6 +14,10 @@ module.exports = {
     ],
   ],
 
+  plugins: [
+    ['@dovyp/vuepress-plugin-clipboard-copy', true]
+  ],
+
   theme: "default-prefers-color-scheme",
   themeConfig: {
     overrideTheme: "dark",
