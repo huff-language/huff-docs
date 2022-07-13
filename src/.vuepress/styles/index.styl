@@ -2,7 +2,21 @@
 
 * {
   text-decoration-color: #4242c7 !important;
-  background-color: black !important;
+  background: black !important;
+}
+
+.home {
+  background-image: url('/overlay.png') !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  box-shadow: 25px 25px 50px 0 black inset, -25px -25px 50px 0 black inset;
+
+  * {
+    background-color: transparent !important;
+  }
 }
 
 :root {
@@ -53,6 +67,10 @@ h2 {
 
 .home .hero {
   text-align: center;
+
+  img {
+    width: 256px;
+  }
 }
 
 .home .hero .action-button {

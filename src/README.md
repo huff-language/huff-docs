@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: Home
-heroImage: /huff.png
+heroImage: /huff_transparent.png
 heroText: The Huff Docs.
 
 ---
