@@ -96,6 +96,17 @@ Huff offers two ways to group together your bytecode: Macros and Functions. It i
 important to understand the difference between the two, and when to use one
 over the other.
 
+Both are defined similarly, taking optional arguments as well as being followed
+by the `takes` and `returns` keywords. These designate the amount of stack
+inputs the macro/function takes in as well as the amount of stack elements the
+macro/function outputs.
+
+```plaintext
+#define <macro|fn> TEST(err) = takes (1) returns (3) {
+    // ...
+}
+```
+
 ### Macros
 
 Most of the time, Huff developers should opt to use macros. Each time a macro is invoked,
@@ -111,10 +122,6 @@ your contract is called, the `MAIN` macro will be the fallback, and it is common
 the control flow of Huff contracts begin. The `CONSTRUCTOR` macro, while not required,
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
-
-#### Macro Signature
-
-Since macros are inlined at compile-time, they don't have signatures and cannot be called externally.
 
 #### Macro Arguments
 
@@ -222,13 +229,9 @@ if it is a small / inexpensive set of operations. However, for larger contracts
 where certain logic is commonly reused, functions can help reduce the size of 
 the contract's bytecode to below the Spurious Dragon limit.
 
-#### Function Signature
-
-TODO
-
 #### Function Arguments
 
-TODO
+Functions can accept arguments to be "called" inside the macro or passed as a reference. Macro arguments may be one of: label, opcode, literal, or a constant.
 
 #### Example
 
@@ -300,7 +303,82 @@ TODO
 
 ## Builtin Functions
 
-TODO
+Several builtin functions are provided by the Huff compiler:
+#### `__FUNC_SIG(<func_def|string>)`
+At compile time, the invocation of `__FUNC_SIG` is substituted with the function selector of the passed function definition or string. If a string is passed, it must represent a valid event i.e. `"test(address, uint256)"`
+
+#### `__EVENT_HASH(<func_def|string>)`
+At compile time, the invocation of `__EVENT_HASH` is substituted with the event hash of the passed event definition or string. If a string is passed, it must represent a valid event i.e. `"TestEvent(uint256, address indexed)"`
+
+#### `__tablestart(TABLE)`
+Pushes the PC of the start of the table passed to the stack.
+
+#### `__tablesize(TABLE)`
+Pushes the code size of the table passed to the stack.
+
+#### `__codesize(MACRO|FUNCTION)`
+Pushes the code size of the macro or function passed to the stack.
+
+#### Example
+```plaintext
+// Define a function
+#define function test(address, uint256) nonpayable returns (bool)
+#define function conditionalTest(bool) pure returns (uint256)
+
+// Define an event
+#define event TestEvent(address, uint256)
+
+#define jumptable CONDITIONAL {
+    jump_one jump_two
+}
+
+#define macro CONDITIONAL_TEST() = takes (0) returns (0) {
+    // Codecopy jump table into memory @ 0x00
+    __tablesize(MAIN__JUMP_TABLE)   // [table_size]
+    __tablestart(MAIN__JUMP_TABLE)  // [table_start, table_size]
+    0x00
+    codecopy
+
+    // Regular jumptables store the jumpdest PCs as full words,
+    // so we simply multiply the input bool by 32 to determine
+    // which label to jump to. This is not a practical example
+    // of jump table usage, see the `Jump Tables` section for
+    // a more fleshed out example.
+    0x04 calldataload        // [input_bool]
+    0x20 mul                 // [0x20 * input_bool]
+    mload                    // [pc]
+    jump                     // []
+
+    jump_one:
+        0x100 0x00 mstore
+        0x20 0x00 return
+    jump_two:
+        0x200 0x00 mstore
+        0x20 0x00 return
+}
+
+#define macro TEST() = takes (0) returns (0) {
+    0x00 0x00                // [address, uint]
+    __EVENT_HASH(WordAdded)  // [sig, address, uint]
+    0x00 0x00                // [mem_start, mem_end, sig, address, uint]
+    log3                     // []
+}
+
+#define macro MAIN() = takes (0) returns (0) {
+    // Identify which function is being called.
+    0x00 calldataload 0xE0 shr
+    dup1 __FUNC_SIG(test) eq test jumpi
+    dup1 __FUNC_SIG(conditionalTest) eq conditional_test jumpi
+
+    // Revert if no function matches
+    0x00 0x00 revert
+
+    test:
+        TEST()
+    conditional_test:
+        CONDITIONAL_TEST()
+}
+```
 
 ## Jump Tables
 
