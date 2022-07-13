@@ -17,7 +17,10 @@ module.exports = {
   theme: "default-prefers-color-scheme",
   themeConfig: {
     overrideTheme: "dark",
-    docsDir: "/",
+    ostname: 'https://docs.huff.sh',
+    docsRepo: 'https://github.com/huff-language/huff-docs',
+    docsBranch: 'main',
+    docsDir: "src",
     nav: [
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started/overview/" },
