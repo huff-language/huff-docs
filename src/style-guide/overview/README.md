@@ -12,7 +12,7 @@ Files should use 4 spaces for indentions.
 
 The file structure of a Huff contract so follow this:
 
-```jsx
+```solidity
 /* Imports */
 #include "./contracts/utils/ExampleImport1.huff"
 #include "./contracts/utils/ExampleImport2.huff"
@@ -48,7 +48,7 @@ The file structure of a Huff contract so follow this:
 
 The next aspect of this is more complicated, because it depends on the context and functionality of the contract. Essentially, we want to categorize macros into sections based on their functionality. Here is an example from an existing ERC20 contract:
 
-```jsx
+```solidity
 /* Accounting Macros */
 #define macro BALANCE_OF() = takes (0) returns (0) {}
 #define macro TOTAL_SUPPLY() = takes (0) returns (0) {}
