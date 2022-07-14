@@ -29,7 +29,7 @@ module.exports = {
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started/overview/" },
       { text: "Tutorials", link: "/tutorial/overview/" },
-      { text: "Resources", link: "/resources/" },
+      { text: "Resources", link: "/resources/overview/" },
       { text: "Contribute", link: "/contribute/overview/" },
     ],
     sidebarDepth: 10,
@@ -40,8 +40,9 @@ module.exports = {
           collapsable: false,
           children: [
             "/get-started/overview/",
+            "/get-started/installing/",
+            "/get-started/compiling/",
             "/get-started/project-quickstart/",
-            "/get-started/cli/"
           ],
         },
       ],
@@ -51,9 +52,9 @@ module.exports = {
           collapsable: false,
           children: [
             "/tutorial/overview/",
-            "/tutorial/setup/",
             "/tutorial/evm-basics/",
-            "/tutorial/project-template/",
+            "/tutorial/hello-world/",
+            "/tutorial/huff-testing/",
           ],
         },
       ],
@@ -61,6 +62,10 @@ module.exports = {
         {
           title: "Resources",
           collapsable: false,
+          children: [
+            "/resources/overview/",
+            "/resources/cli/"
+          ]
         },
       ],
       "/contribute/": [
