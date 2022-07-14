@@ -1,19 +1,43 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap);
 
 * {
-  text-decoration-color: $accentColor !important;
-  background-color: black !important;
+  text-decoration-color: #4242c7 !important;
+  background: black !important;
+}
+
+.home {
+  background-image: url('/overlay.png') !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  box-shadow: 25px 25px 50px 0 black inset, -25px -25px 50px 0 black inset;
+
+  * {
+    background-color: transparent !important;
+  }
 }
 
 :root {
   background-color: black;
 }
 
+.footer {
+  padding: 0 !important;
+  border-top: none !important;
+}
+
+a {
+  border-color: #4242c7 !important;
+  // color: #4242c7 !important;
+}
+
 code {
   background-color: $lightBackgroundColor !important;
 }
 
-.language-shell, .language-javascript, .language-plaintext, .token, .function {
+.language-shell, .language-solidity, .language-sh, .language-md, .language-huff, .language-bash, .language-javascript, .language-plaintext, .token, .function {
   background-color: $lightBackgroundColor !important;
 }
 
@@ -43,6 +67,10 @@ h2 {
 
 .home .hero {
   text-align: center;
+
+  img {
+    width: 256px;
+  }
 }
 
 .home .hero .action-button {
@@ -74,7 +102,7 @@ h2 {
 }
 
 a > code {
-  color: $accentColor !important;
+  color: #4242c7 !important;
 }
 
 #tagline {
@@ -103,4 +131,57 @@ a > code {
     left: auto !important;
     right: 0 !important;
   }
+}
+
+.home .features {
+  border-top: none !important;
+  justify-content: space-around !important;
+  margin: auto !important;
+  padding: 0.5em 2em !important;
+  align-items: initial !important;
+  align-content: center !important;
+}
+
+.home .features h2 {
+  cursor: pointer;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  background-color: #1f1f1f !important;
+}
+
+.home .features p {
+  cursor: pointer;
+  font-size: 16px !important;
+  background-color: #1f1f1f !important;
+}
+
+.home .features .icon-container {
+  height: 44px;
+  width: 44px;
+  background-color: #FFF0F1 !important;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FF0420;
+}
+
+.home .features .feature {
+  cursor: pointer;
+  box-shadow: 0px 6px 8px -6px rgba(20, 23, 26, 0.12), 0px 8px 16px -6px rgba(20, 23, 26, 0.08);
+  border-radius: 16px !important;
+  margin: 0 !important;
+  margin-bottom: 1rem !important;
+  padding: 1.5rem !important;
+  background-color: #1f1f1f !important;
+  max-width: 25% !important;
+  border: solid;
+  border-color: #4242c7 !important;
+  border-width: 1px !important;
+  min-width: 200px !important;
+}
+
+.features-header {
+  margin-top: 30px;
+  margin-bottom: 0px;
 }
