@@ -187,10 +187,14 @@ a > code {
 }
 
 
-ul {
+.links {
   list-style-type: none !important;
   margin: 0 !important;
   padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 30px;
 }
 
 #icon {
@@ -198,6 +202,12 @@ ul {
   color: white !important;
 }
 
+svg:hover {
+  color: #4242c7 !important;
+  filter: drop-shadow(0 0 20px #FFF0F1);
+}
+
 .footer {
-  padding: 20px !important;
+  margin-top: 20px !important;
+  padding: 10px !important;
 }
