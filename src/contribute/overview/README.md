@@ -14,7 +14,7 @@ All contributions are welcome! We want to make contributing to this project as e
 - Becoming a maintainer
 
 
-Contributing to Huff Language is not just limited to writing code. It can mean a wide array of things, such as participating in discussions in our [discord server](https://discord.gg/h8pkspwx) or reporting issues.
+Contributing to Huff Language is not just limited to writing code. It can mean a wide array of things, such as participating in discussions in our [discord server](https://discord.gg/PfH8TZaYxQ) or reporting issues.
 
 ## Issues
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/huff-language/huff-rs/issues/new); it's that easy!
