@@ -406,7 +406,7 @@ opposite is true for Regular Jump Tables.
     jump_one jump_two jump_three jump_four
 }
 
-#define macro SWITCH() = takes (0) returns (0) {
+#define macro SWITCH_TEST() = takes (0) returns (0) {
     // Codecopy jump table into memory @ 0x00
     __tablesize(SWITCH_TABLE)   // [table_size]
     __tablestart(SWITCH_TABLE)  // [table_start, table_size]
