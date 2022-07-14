@@ -29,6 +29,7 @@ module.exports = {
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started/overview/" },
       { text: "Tutorials", link: "/tutorial/overview/" },
+      { text: "Style Guide", link: "/style-guide/overview/" },
       { text: "Resources", link: "/resources/" },
       { text: "Contribute", link: "/contribute/overview/" },
     ],
@@ -54,6 +55,15 @@ module.exports = {
             "/tutorial/setup/",
             "/tutorial/evm-basics/",
             "/tutorial/project-template/",
+          ],
+        },
+      ],
+      "/style-guide/": [
+        {
+          title: "Style Guide",
+          collapsable: false,
+          children: [
+            "/style-guide/overview/",
           ],
         },
       ],
