@@ -1,6 +1,6 @@
 # Style Guide
 
-The following is a style-guide for the Huff-Std library. [Feedback and discussion](https://discord.gg/PfH8TZaYxQ) is welcome.
+The following is a style-guide for the Huff-Std library. [Feedback and discussion](https://discord.huff.sh/) is welcome.
 
 ## Formatting
 
