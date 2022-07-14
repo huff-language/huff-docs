@@ -8,14 +8,14 @@ In this tutorial, we'll be covering:
 
 - The basics of the Ethereum Virtual Machine
 - "Hello, World" in assembly
-- Setting up a Hardhat environment to write, test, and deploy your code
-- How to write automated tests using `ethers.js`
+- Setting up a Foundry environment to write, test, and deploy your code
 - Deploying your contracts to various Ethereum testnets
 
 This tutorial loosely follows the [original Hardhat tutorial](https://hardhat.org/tutorial/).
 
-To follow this tutorial you must understand:
+To follow this tutorial you must:
 
-- How to write code in [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics) and [Solidity/Vyper](https://ethereum.org/en/developers/docs/smart-contracts/languages/)
-- How [smart contracts](https://ethereum.org/en/developers/docs/smart-contracts/#:~:text=Smart%20contracts%20are%20a%20type,network%20and%20run%20as%20programmed.) work
-- Use [git](https://git-scm.com/doc)
+- Be proficient in [Solidity/Vyper](https://ethereum.org/en/developers/docs/smart-contracts/languages/).
+- Understand how [smart contracts](https://ethereum.org/en/developers/docs/smart-contracts/#:~:text=Smart%20contracts%20are%20a%20type,network%20and%20run%20as%20programmed.) work.
+- Be competent using [git](https://git-scm.com/doc).
+- Have at least read the [Foundry](https://github.com/foundry-rs/foundry) docs or developed contracts with it.
