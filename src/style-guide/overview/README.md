@@ -93,7 +93,7 @@ Macros with a non-zero `takes` expectation should include a single comment at th
 // Reverts if caller is not the owner.
 #define macro ONLY_OWNER() = takes (1) returns (0) {
     // takes: [calling_address]
-	  [OWNER_SLOT]  // [owner_slot, calling_address]
+    [OWNER_SLOT]  // [owner_slot, calling_address]
     sload         // [owner_address, calling_address]
     eq            // [is_owner]
     is_owner      // [is_owner_jumpdest, is_owner]
@@ -101,7 +101,7 @@ Macros with a non-zero `takes` expectation should include a single comment at th
     0x00          // [revert_size]
     0x00          // [revert_offset, revert_size]
     revert        // []
-		is_owner:     // []
+    is_owner:     // []
 }
 ```
 
@@ -111,16 +111,23 @@ The contract entry point should contain the function selector switch first, with
 
 ```solidity
 // Entry point.
+#define function add(uint256, uint256) view returns (uint256)
+#define function sub(uint256, uint256) view returns (uint256)
+ 
 #define macro MAIN() = takes (0) returns (0) {
-		0x00 calldataload 0xE0 shr
-    dup1 ADD_SEL eq add_func jumpi // add(uint256,uint256)
-		dup1 SUB_SEL eq sub_func jumpi // sub(uint256,uint256)
+    // Grab the function selector from the calldata
+    0x00 calldataload 0xE0 shr                 // [selector]
 
-    add_fund:
-	    ADD()
+    dup1 __FUNC_SIG(add) eq add_func jumpi     // [selector]
+    dup1 __FUNC_SIG(sub) eq sub_func jumpi     // [selector]
 
-		sub_func:
-			SUB()
+    // Revert if no functions match
+    0x00 0x00 revert
+
+    add_func:
+        ADD()
+    sub_func:
+        SUB()
 }
 ```
 
@@ -135,18 +142,20 @@ The function selector definition should be screaming snake case suffixed with `_
 Omitting whitespace between the function definition and selector would also make the relationship between the two more clear.
 
 ```solidity
-
-#define function add(uint256,uint256) pure returns (uint256)
-#define constant ADD_SEL = 0x771602f7
+#define function add(uint256, uint256) view returns (uint256)
 
 #define macro ADD() = takes (0) returns (0) {}
 
 #define macro MAIN() = takes (0) returns (0) {
-		0x00 calldataload 0xE0 shr
-    dup1 ADD_SEL eq add_func jumpi
+    // Grab the function selector from the calldata
+    0x00 calldataload 0xE0 shr                 // [selector]
+    dup1 __FUNC_SIG(add) eq add_func jumpi     // [selector]
 
-		add_func:
-			ADD()
+    // Revert if no functions match
+    0x00 0x00 revert
+
+    add_func:
+        ADD()
 }
 ```
 
@@ -178,11 +187,11 @@ jump
 // ....
 
 operation0:
-	  0x01     // [b]
-	  0x02     // [a, b]
-	  add      // [sum]
+    0x01     // [b]
+    0x02     // [a, b]
+    add      // [sum]
 operation1:
-	  0x02     // [b, sum]
+    0x02     // [b, sum]
     0x01     // [a, b, sum]
     sub      // [diff, sum]
 ```
@@ -212,49 +221,52 @@ sub          // [diff, sum]
 There is an issue with using something such as a reentrancy guard, which is a potential `return` instruction before the lock is restored to the unlocked state. Take the following example.
 
 ```solidity
-#define function doAction() returns (uint256)
-#define constant DO_ACTION_SEL = 0x2a7a1298
+#define function doAction() view returns (uint256)
 
 #define constant LOCK_SLOT = FREE_STORAGE_POINTER()
 
 #define macro NON_REENTRANT() = takes (0) returns (0) {
-		[LOCK_SLOT]  // [lock_slot]
-		sload        // [lock]
-		iszero       // [is_unlocked]
-		unlocked     // [unlocked_jumpdest]
-		jumpi        // []
+    [LOCK_SLOT]  // [lock_slot]
+    sload        // [lock]
+    iszero       // [is_unlocked]
+    unlocked     // [unlocked_jumpdest]
+    jumpi        // []
     0x00         // [size]
-		0x00         // [offset, size]
-		revert       // []
+    0x00         // [offset, size]
+    revert       // []
     unlocked:    // []
     0x01         // [lock_value]
-		[LOCK_SLOT]  // [lock_slot, lock_value]
-		sstore       // []
+    [LOCK_SLOT]  // [lock_slot, lock_value]
+    sstore       // []
 }
 
 #define macro UNLOCK() = takes (0) returns (0) {
     0x01         // [lock_value]
-		[LOCK_SLOT]  // [lock_slot, lock_value]
+    [LOCK_SLOT]  // [lock_slot, lock_value]
     sstore       // []
 }
 
 #define macro DO_ACTION() = takes (0) returns (0) {
-		0x45    // [value]
+    0x45    // [value]
     0x00    // [offset, value]
-	  mstore  // []
+    mstore  // []
     0x20    // [size]
     0x00    // [offset, size]
     return
 }
 
 #define macro MAIN() = takes (0) returns (0) {
-		0x00 calldataload 0xE0 shr
-    dup1 DO_ACTION eq do_action jumpi
+    // Grab the function selector from the calldata
+    0x00 calldataload 0xE0 shr                       // [selector]
+    dup1 __FUNC_SIG(doAction) eq do_action jumpi     // [selector]
 
-		do_action:
-    NON_REENTRANT()
-    DO_ACTION()
-		UNLOCK()
+    // Revert if no functions match
+    0x00 0x00 revert
+
+    do_action:
+        NON_REENTRANT()
+        DO_ACTION()
+        UNLOCK()
 }
 ```
 
@@ -265,39 +277,36 @@ I’m not sure the best way to handle this until a transient-storage opcode is i
 The following would be an example of external-function macros returning the stack values instead of using the `return` instruction, allowing for more safe use of modifiers.
 
 ```solidity
-#define function doAction() returns (uint256)
-#define constant DO_ACTION_SEL = 0x2a7a1298
-
-#define function otherAction() view returns ()
-#define constant OTHER_ACTION_SEL = 0xbd304c21
+#define function doAction() view returns (uint256)
+#define function otherAction() view returns (uint256)
 
 #define constant LOCK_SLOT = FREE_STORAGE_POINTER()
 
 #define macro NON_REENTRANT() = takes (0) returns (0) {
-		[LOCK_SLOT]  // [lock_slot]
-		sload        // [lock]
-		iszero       // [is_unlocked]
-		unlocked     // [unlocked_jumpdest]
-		jumpi        // []
+    [LOCK_SLOT]  // [lock_slot]
+    sload        // [lock]
+    iszero       // [is_unlocked]
+    unlocked     // [unlocked_jumpdest]
+    jumpi        // []
     0x00         // [size]
-		0x00         // [offset, size]
-		revert       // []
+    0x00         // [offset, size]
+    revert       // []
     unlocked:    // []
     0x01         // [lock_value]
-		[LOCK_SLOT]  // [lock_slot, lock_value]
-		sstore       // []
+    [LOCK_SLOT]  // [lock_slot, lock_value]
+    sstore       // []
 }
 
 #define macro UNLOCK() = takes (0) returns (0) {
     0x00         // [lock_value]
-		[LOCK_SLOT]  // [lock_slot, lock_value]
+    [LOCK_SLOT]  // [lock_slot, lock_value]
     sstore       // []
 }
 
 #define macro DO_ACTION() = takes (0) returns (2) {
-		0x45    // [value]
+    0x45    // [value]
     0x00    // [offset, value]
-	  mstore  // []
+    mstore  // []
     0x20    // [size]
     0x00    // [offset, size]
 }
@@ -308,22 +317,27 @@ The following would be an example of external-function macros returning the stac
 }
 
 #define macro MAIN() = takes (0) returns (0) {
-		0x00 calldataload 0xE0 shr
-    dup1 DO_ACTION_SEL eq do_action jumpi
-		dup1 OTHER_ACTION_SEL eq other_action jumpi
+    // Grab the function selector from the calldata
+    0x00 calldataload 0xE0 shr                          // [selector]
+    dup1 __FUNC_SIG(doAction) eq do_action jumpi        // [selector]
+    dup1 __FUNC_SIG(otherAction) eq other_action jumpi  // [selector]
 
-		do_action:
-	    NON_REENTRANT()
-	    DO_ACTION()
-			finish jump
+    // Revert if no functions match
+    0x00 0x00 revert
 
-		other_action:
-	    OTHER_ACTION()
-			finish jump
+
+    do_action:
+        NON_REENTRANT()
+        DO_ACTION()
+        finish jump
+
+    other_action:
+        OTHER_ACTION()
+        finish jump
 
     finish:
-	    // stack: [offset, size]
-			UNLOCK()
-			return
+        // stack: [offset, size]
+        UNLOCK()
+        return
 }
 ```
