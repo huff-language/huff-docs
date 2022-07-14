@@ -1,4 +1,4 @@
-# huffc CLI
+# Huff CLI
 
 While most of the time you will be compiling your Huff contracts in a foundry
 project using the [foundry-huff](https://github.com/huff-language/foundry-huff)
