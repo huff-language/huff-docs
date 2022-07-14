@@ -181,11 +181,37 @@ a > code {
   min-width: 200px !important;
 }
 
+.home .features .feature:hover {
+  background-color: #4242c7 !important;
+  box-shadow: 0 0 25px #4242c7;
+}
+
+
+.home .features .feature:hover h2 {
+  background-color: #4242c7 !important;
+}
+
+.home .features .feature:hover p {
+  background-color: #4242c7 !important;
+}
+
 .features-header {
   margin-top: 30px;
   margin-bottom: 0px;
 }
 
+#main-title {
+  overflow: hidden;
+  white-space: nowrap;
+  animation:
+    typing 3s forwards;
+  width: 0;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
 
 .links {
   list-style-type: none !important;
