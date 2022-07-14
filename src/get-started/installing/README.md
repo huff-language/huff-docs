@@ -23,4 +23,4 @@ If you get an error, or it is not installing correctly, send a message in the `#
 
 To get started compiling Huff Contracts, check out [compiling](https://docs.huff.sh/get-started/compiling/).
 
-To diver deeper into the compiler's cli abilities, check out the [cli docs](https://docs.huff.sh/get-started/cli/).
+To diver deeper into the compiler's cli abilities, check out the [cli docs](https://docs.huff.sh/resources/cli/).
