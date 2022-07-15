@@ -22,6 +22,6 @@ _These are third party huff contracts. We do not endorse and are not responsible
 #### Other Resources
 
 - [EVM Codes](https://evm.codes/): An interactive reference to Ethereum Virtual Machine Opcodes.
-
-
-
+- [A Playdate with the EVM](https://femboy.capital/evm-pt1): A concise and consumable introduction to working with the EVM.
+- [Ethereum EVM Illustrated](https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf): A near comprehensive visual overview of the EVM.
+- Part [1](https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy), [2](https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy-d6b), [3](https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy-3ea), [4](https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy-5a5), & [5](https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy-a5f) of Noxx's EVM Deepdive articles.
