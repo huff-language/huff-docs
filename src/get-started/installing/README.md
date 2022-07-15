@@ -7,7 +7,7 @@ Installation of the compiler is similar to that of [Foundry](https://github.com/
 First, install `huffup`, a version control manager for the Huff Compiler:
 
 ```shell
-curl -L https://get.huff.sh | bash
+curl -L get.huff.sh | bash
 ```
 
 _NOTE: This installs the `huffup` binary, but does not guarantee it is added to your path. If you get an error like `huffup: command not found`, you will need to source your path by running `source ~/.bashrc` or `source ~/.zshrc`. Alternatively, you can open a new terminal window._
