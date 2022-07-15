@@ -44,6 +44,7 @@ module.exports = {
             "/get-started/installing/",
             "/get-started/compiling/",
             "/get-started/project-quickstart/",
+            "/get-started/huff-by-example/",
           ],
         },
       ],
