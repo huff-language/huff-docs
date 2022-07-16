@@ -119,7 +119,7 @@ throughout.
 
 `MAIN` and `CONSTRUCTOR` are two important macros that serve special purposes. When
 your contract is called, the `MAIN` macro will be the fallback, and it is commonly where
-the control flow of Huff contracts begin. The `CONSTRUCTOR` macro, while not required,
+a Huff contract's control flow begins. The `CONSTRUCTOR` macro, while not required,
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
 
@@ -215,12 +215,12 @@ Macros can accept arguments to be "called" inside the macro or passed as a refer
 
 Functions look extremely similar to macros, but behave somewhat differently.
 Instead of the code being inserted at each invocation, the compiler moves
-its code to the end of the runtime bytecode, and a jump to and from that
-code is inserted instead. This can be a useful abstraction when a certain
-set of operations is used repeatedly throughout your contract, and it is
-essentially a trade-off of decreasing contract size for a small extra
-runtime gas cost (`22 + n_inputs * 3 + n_outputs * 3` gas per invocation, 
-to be exact).
+the code to the end of the runtime bytecode, and a jump to and from that
+code is inserted at the points of invocation instead. This can be a useful 
+abstraction when a certain set of operations is used repeatedly throughout 
+your contract, and it is essentially a trade-off of decreasing contract size 
+for a small extra runtime gas cost (`22 + n_inputs * 3 + n_outputs * 3` gas 
+per invocation, to be exact).
 
 Functions are one of the only high-level abstractions
 in Huff, so it is important to understand what the compiler adds to your code
@@ -231,7 +231,7 @@ the contract's bytecode to below the Spurious Dragon limit.
 
 #### Function Arguments
 
-Functions can accept arguments to be "called" inside the macro or passed as a reference. Macro arguments may be one of: label, opcode, literal, or a constant.
+Functions can accept arguments to be "called" inside the macro or passed as a reference. Macro arguments may be one of: label, opcode, literal, or a constant. Since functions are added to the end of the bytecode at compile-time, the arguments are not evaluated at runtime and are instead inlined as well.
 
 #### Example
 
@@ -465,6 +465,6 @@ somewhere within the contract.
 #### Example
 ```plaintext
 #define table CODE_TABLE {
-    604260005260206000F3
+    0x604260005260206000F3
 }
 ```
