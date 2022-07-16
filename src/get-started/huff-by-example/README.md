@@ -305,9 +305,9 @@ Functions can accept arguments to be "called" inside the macro or passed as a re
 
 Several builtin functions are provided by the Huff compiler:
 #### `__FUNC_SIG(<func_def|string>)`
-At compile time, the invocation of `__FUNC_SIG` is substituted with the function selector of the passed function definition or string. If a string is passed, it must represent a valid event i.e. `"test(address, uint256)"`
+At compile time, the invocation of `__FUNC_SIG` is substituted with the function selector of the passed function definition or string. If a string is passed, it must represent a valid function i.e. `"test(address, uint256)"`
 
-#### `__EVENT_HASH(<func_def|string>)`
+#### `__EVENT_HASH(<event_def|string>)`
 At compile time, the invocation of `__EVENT_HASH` is substituted with the event hash of the passed event definition or string. If a string is passed, it must represent a valid event i.e. `"TestEvent(uint256, address indexed)"`
 
 #### `__tablestart(TABLE)`
@@ -413,19 +413,19 @@ opposite is true for Regular Jump Tables.
     0x00
     codecopy
 
-    0x04 calldataload          // [input_num]
+    0x04 calldataload           // [input_num]
 
     // Revert if input_num is not in the bounds of [0, 3]
-    dup1                       // [input_num, input_num]
-    0x03 lt                    // [3 < input_num, input_num]
+    dup1                        // [input_num, input_num]
+    0x03 lt                     // [3 < input_num, input_num]
     err jumpi                       
 
     // Regular jumptables store the jumpdest PCs as full words,
     // so we simply multiply the input number by 32 to determine
     // which label to jump to.
-    0x20 mul                   // [0x20 * input_num]
-    mload                      // [pc]
-    jump                       // []
+    0x20 mul                    // [0x20 * input_num]
+    mload                       // [pc]
+    jump                        // []
 
     jump_one:
         0x100 0x00 mstore
