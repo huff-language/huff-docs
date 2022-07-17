@@ -6,7 +6,7 @@ Before you get started writing Huff you will have to install the compiler. Head 
 Once that is done - come back here!! 
 
 ### What you are going to learn?
-Unlike other programming languages, creating a Huff contract that returns "Hello, world!" is quite advanced! To keep things simple we are first going to learn how to create a Huff contract that adds two numbers (then we will dive into "Hello, world"!).
+Unlike other programming languages, creating a Huff contract that returns "Hello, world!" is quite advanced! To keep things simple we are first going to learn how to create a Huff contract that adds two numbers (then we will dive into "Hello, world!").
 Open up your editor and create a file called `addTwo.Huff`. Lets jump in. 
 
 ## Add Two
