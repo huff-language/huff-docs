@@ -53,7 +53,9 @@ module.exports = {
           children: [
             "/tutorial/overview/",
             "/tutorial/evm-basics/",
+            "/tutorial/the-basics/",
             "/tutorial/hello-world/",
+            "/tutorial/simple-storage/",
             "/tutorial/huff-testing/",
           ],
         },
