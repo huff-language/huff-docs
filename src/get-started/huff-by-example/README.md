@@ -231,7 +231,7 @@ the contract's bytecode to below the Spurious Dragon limit.
 
 #### Function Arguments
 
-Functions can accept arguments to be "called" inside the macro or passed as a reference. Macro arguments may be one of: label, opcode, literal, or a constant. Since functions are added to the end of the bytecode at compile-time, the arguments are not evaluated at runtime and are instead inlined as well.
+Functions can accept arguments to be "called" inside the macro or passed as a reference. Function arguments may be one of: label, opcode, literal, or a constant. Since functions are added to the end of the bytecode at compile-time, the arguments are not evaluated at runtime and are instead inlined as well.
 
 #### Example
 
