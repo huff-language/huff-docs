@@ -60,11 +60,9 @@ Below expands this example dissembles what you have just created!
  f3             // RETURN           // []                 Return the first 32 bytes of memory
 ```
 
-If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?unit=Wei&codeType=Bytecode&code='~3560203501~526020~f3'~6000%01~_) (click RUN to get started). If you are new to working with assembly I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning. 
+If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?unit=Wei&codeType=Bytecode&code='~3560203501~526020~f3'~6000%01~_) (pass in the calldata `0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002` and click RUN to get started). This calldata is the numbers 1 and 2, both padded to 32 bytes. After running this snippet, you should end up with a return value of `0000000000000000000000000000000000000000000000000000000000000003`. Which is expected! `addTwo.huff` successfully added the numbers 1 and 2, returning 3! If you are new to working with assembly I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning.
 
-*What calldata to send*
-
-In the next section we will walk through your contract's execution given that provide the calldata for 2 + 3. Encoded into uint256's the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`. 
+In the next section we will walk through your contract's execution given that provide the calldata for 2 + 3. Encoded into uint256's (32 bytes) the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`.
 
 This is illustrated in the table below:
 | Type      | Value | As calldata |
@@ -72,7 +70,7 @@ This is illustrated in the table below:
 | uint256      | 2       |  0000000000000000000000000000000000000000000000000000000000000002         |
 | uint256   | 3        |   0000000000000000000000000000000000000000000000000000000000000003        |
 
-By putting the two together, we will send the following calldata to the contract. 
+By putting the two together, we will send the following calldata to the contract.
 ```
 0x00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003
 ```
