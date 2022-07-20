@@ -1,12 +1,12 @@
 # The Basics
 
 ## Installation
-Before you get started writing Huff you will have to install the compiler. Head over to [getting started](https://docs.Huff.sh/get-started/overview/) and follow the steps to get it installed.
+Before you get started writing Huff you will have to install the compiler. Head over to [getting started](https://docs.huff.sh/get-started/overview/) and follow the steps to get it installed.
 Once complete - come back here!! 
 
 ## What you are going to learn?
 Unlike other programming languages, creating a Huff contract that returns "Hello, world!" is quite advanced! To keep things simple we are going to learn how to create a Huff contract that adds two numbers (then we will dive into "Hello, world!").
-Open up your editor and create a file called `addTwo.Huff`. Lets jump in. 
+Open up your editor and create a file called `addTwo.huff`. Lets jump in. 
 
 ## Add Two
 ### ABI declaration
@@ -16,7 +16,7 @@ First things first. If you're coming from a higher level language like Solidity 
 #define function addTwo(uint256, uint256) view returns(uint256)
 ```
 
-Go ahead and paste the above example at the top of `addTwo.Huff`. This declares a function that takes two `uint256` inputs and returns a single `uint256`.
+Go ahead and paste the above example at the top of `addTwo.huff`. This declares a function that takes two `uint256` inputs and returns a single `uint256`.
 
 ### The Main Macro
 The next thing we are going to create is the `MAIN macro`. This serves a single entry point for Huff contracts. All calls a contract (regardless of what function they are calling) will start from `MAIN`! In this example we will define a `MAIN` function that will read two `uint256`'s from calldata and return their result.
@@ -36,7 +36,7 @@ Looking at the above snippet may be intimidating at first, but bear with us.
 
 You'll notice that the MAIN directive is annotated with `takes(0) returns(0)`. As the EVM is a stack based virtual machine [https://docs.huff.sh/tutorial/evm-basics/](see more), all macro declarations are annotated with the number of items they will `take` from the stack and the amount they will `return` upon completion. When entering the contract the stack will be empty. Upon completion we will not be leaving anything on the stack; therefore, takes and returns will both be 0.
 
-Go ahead and copy the above macro into your `addTwo.Huff` file. Run `huffc addTwo.Huff --bytecode`.
+Go ahead and copy the above macro into your `addTwo.huff` file. Run `huffc addTwo.huff --bytecode`.
 
 Congratulations you've just compiled your first contract!
 
