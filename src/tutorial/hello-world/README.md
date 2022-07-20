@@ -38,7 +38,7 @@ Additionaly, in this example, we know that we want to store the location startin
 
 Armed with this knowledge, we can store the value "Hello, world!" at 0x2d (starting index of length 0x20 + the length of the data in bytes 0x0d). The first 0x2d (decimal 45) bytes are set to zero as a result of memory expansion. The left padding of "Hello, world!" is stored from bytes 0x2d (decimal 45)-> 0x3f (decimal 63).
 
-This means our important bytes (`48656c6c6f2c20776f726c6421") start at 0x40. However, since memory is expanded in 32 byte increments empty memory will be expanded with zeros to byte 0x60 (decimal 96), exactly what we need! 
+This means our important bytes (`48656c6c6f2c20776f726c6421`) start at 0x40. However, since memory is expanded in 32 byte increments empty memory will be expanded with zeros to byte 0x60 (decimal 96), exactly what we need! 
 ```
 [Byte number]   [DATA]    
 0x00            0000000000000000000000000000000000000000000000000000000000000000 // Empty
