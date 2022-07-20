@@ -7,7 +7,9 @@ Welcome to our beginner's tutorial for smart contract developers interested in l
 In this tutorial, we'll be covering:
 
 - The basics of the Ethereum Virtual Machine
-- "Hello, World" in assembly
+- The basics of writing assembly in Huff
+- "Hello, World! in assembly
+- Simple Storage in assembly
 - Setting up a Foundry environment to write, test, and deploy your code
 - Deploying your contracts to various Ethereum testnets
 
