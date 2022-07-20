@@ -55,7 +55,7 @@ The following `MAIN` macro steps through this encoding in a clear way (gas optim
     // Store string "Hello, world1" in memory at 0x40
     // 0x2d is listed as mstore pads the value
     0x48656c6c6f2c20776f726c6421        // ["Hello, world!"]
-    0x2d                                // ["Hello, world!", 0x2d]
+    0x2d                                // [0x2d, "Hello, world!"]
     mstore                              // []
 
     // store length of string at 0x20
