@@ -32,8 +32,9 @@ You might think that we can populate the memory in sequential order starting wit
 This is not what we need. Instead, we're going to leverage what we know about memory to produce the right result:
 - Memory is always expanded in 32 byte increments
 - We can store a value starting from any index
-- We want to store the location starting at 0x00 and the length starting at 0x20
 - Values are left padded
+
+Additionaly, in this example, we know that we want to store the location starting at 0x00 and the length starting at 0x20.
 
 Armed with this knowledge, we can store the value "Hello, world!" at 0x2d (starting index of length 0x20 + the length of the data in bytes 0x0d). The first 0x2d (decimal 45) bytes are set to zero as a result of memory expansion. The left padding of "Hello, world!" is stored from bytes 0x2d (decimal 45)-> 0x3f (decimal 63).
 
