@@ -34,7 +34,7 @@ The next thing we are going to create is the `MAIN macro`. This serves a single 
 
 Looking at the above snippet may be intimidating at first, but bear with us.
 
-You'll notice that the MAIN directive is annotated with `takes(0) returns(0)`. As the EVM is a stack based virtual machine [https://docs.huff.sh/tutorial/evm-basics/](see more), all macro declarations are annotated with the number of items they will `take` from the stack and the amount they will `return` upon completion. When entering the contract the stack will be empty. Upon completion we will not be leaving anything on the stack; therefore, takes and returns will both be 0.
+You'll notice that the MAIN directive is annotated with `takes(0) returns(0)`. As the EVM is a stack based virtual machine (see: [Understanding the EVM](https://docs.huff.sh/tutorial/evm-basics/)), all macro declarations are annotated with the number of items they will `take` from the stack and the amount they will `return` upon completion. When entering the contract the stack will be empty. Upon completion we will not be leaving anything on the stack; therefore, takes and returns will both be 0.
 
 Go ahead and copy the above macro into your `addTwo.huff` file. Run `huffc addTwo.huff --bytecode`.
 
