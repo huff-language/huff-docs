@@ -22,22 +22,22 @@ Each part will look as follows for the string `"Hello, world!"`:
 
 Encoding dynamic values takes alot of work!! In order to return `"Hello, world!"` we must return 96 bytes!
 
-You might think that we can populate the memory in sequential order starting with the location (0x00), then length (0x20), and then the value (0x40), however, this would result in the value "Hello, world!" being left padded, so we would get: 
+You might think that we can populate the memory in sequential order starting with the location (0x00), then length (0x20), and then the value (0x40). However, this would result in the value "Hello, world!" being left padded. We would get: 
 ```
 [Byte number]   [DATA]    
 0x00            0000000000000000000000000000000000000000000000000000000000000020 // The location of the "Hello, world!" data (dynamic type).
 0x20            000000000000000000000000000000000000000000000000000000000000000d // The length of "Hello, world!" in bytes
 0x40            0000000000000000000000000000000000000048656c6c6f2c20776f726c6421 // Wrong encoding!
 ```
-And that's not what we need. Instead, we're going to leverage what we know about memory to produce the right result, and that is:
+This is not what we need. Instead, we're going to leverage what we know about memory to produce the right result:
 - Memory is always expanded in 32 byte increments
 - We can store a value starting from any index
 - We want to store the location starting at 0x00 and the length starting at 0x20
 - Values are left padded
 
-Armed with that knowledge, we can store the value "Hello, world!" at 0x2d (starting index of length 0x20 + the length of the data in bytes 0x0d). That will give us the first 0x2d (decimal 45) bytes as zeroes due to memory expansion, and since the value is left padded and of length 0x0d (decimal 13) bytes we get another 19 bytes of zeroes, equalling to 64 bytes. 
+Armed with this knowledge, we can store the value "Hello, world!" at 0x2d (starting index of length 0x20 + the length of the data in bytes 0x0d). The first 0x2d (decimal 45) bytes are set to zero as a result of memory expansion. The left padding of "Hello, world!" is stored from bytes 0x2d (decimal 45)-> 0x3f (decimal 63).
 
-This means our actual important bytes start at 0x40, but since memory is expanded in 32 byte increments we get right padded zeroes until 0x60, equalling 96 bytes, exactly what we need! 
+This means our important bytes (`48656c6c6f2c20776f726c6421") start at 0x40. However, since memory is expanded in 32 byte increments empty memory will be expanded with zeros to byte 0x60 (decimal 96), exactly what we need! 
 ```
 [Byte number]   [DATA]    
 0x00            0000000000000000000000000000000000000000000000000000000000000000 // Empty
@@ -45,7 +45,7 @@ This means our actual important bytes start at 0x40, but since memory is expande
 0x40            48656c6c6f2c20776f726c642100000000000000000000000000000000000000 // Correct encoding 
 ```
 
-After this all we need to do is store the length of the data in 0x20, and the location of the data in 0x00 and we have what we want! Now let's see what that looks like in code.
+Now we have "Hello, world!" stored, we have two things left to do. Store the length of the string in 0x20, and a pointer to the start of our dynamic data 0x00! Now let's see what that looks like in code.
 
 ## Implementation
 The following `MAIN` macro steps through this encoding in a clear way (gas optimization will be left as an exercise to the reader!)
