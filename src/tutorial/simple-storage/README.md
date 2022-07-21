@@ -77,7 +77,7 @@ After completing the previous examples we hope that writing Huff is all starting
 
 Next up is reading the stored value. 
 ```
-#define macro GET_VALUE = takes(0) returns(0) {
+#define macro GET_VALUE() = takes(0) returns(0) {
     // Read uint256 from storage
     [VALUE]         // [value_ptr]
     sload           // [value]
@@ -99,7 +99,7 @@ To call our new macros from external functions we have to create a dispatcher!
 #define macro MAIN() = takes(0) returns(0) {
     
     // Get the function selector
-    0x00 calldata 0xe0 shr
+    0x00 calldataload 0xe0 shr
 
     dup1 0x55241077 eq setValue jumpi // Compare function selector to setValue(uint256)
     dup1 0x20965255 eq getValue jumpi // Compare the function selector to getValue()
@@ -137,7 +137,7 @@ Now all of it together!
 }
 
 // getValue()
-#define macro GET_VALUE = takes(0) returns(0) {
+#define macro GET_VALUE() = takes(0) returns(0) {
     // Read uint256 from storage
     [VALUE]         // [value_ptr]
     sload           // [value]
@@ -155,7 +155,7 @@ Now all of it together!
 // Main
 #define macro MAIN() = takes(0) returns(0) {
     // Get the function selector
-    0x00 calldata 0xe0 shr
+    0x00 calldataload 0xe0 shr
 
     dup1 __FUNC_SIG(setValue) eq setValue jumpi // Compare function selector to setValue(uint256)
     dup1 __FUNC_SIG(getValue) eq getValue jumpi // Compare the function selector to getValue()
