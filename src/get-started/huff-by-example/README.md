@@ -310,56 +310,32 @@ At compile time, the invocation of `__FUNC_SIG` is substituted with the function
 #### `__EVENT_HASH(<event_def|string>)`
 At compile time, the invocation of `__EVENT_HASH` is substituted with the event hash of the passed event definition or string. If a string is passed, it must represent a valid event i.e. `"TestEvent(uint256, address indexed)"`
 
-#### `__tablestart(TABLE)`
-Pushes the PC of the start of the table passed to the stack.
-
-#### `__tablesize(TABLE)`
-Pushes the code size of the table passed to the stack.
-
 #### `__codesize(MACRO|FUNCTION)`
 Pushes the code size of the macro or function passed to the stack.
+
+#### `__tablestart(TABLE)` and `__tablesize(TABLE)`
+These functions related to Jump Tables are described in the next section.
 
 #### Example
 ```plaintext
 // Define a function
-#define function test(address, uint256) nonpayable returns (bool)
-#define function conditionalTest(bool) pure returns (uint256)
+#define function test1(address, uint256) nonpayable returns (bool)
+#define function test2(address, uint256) nonpayable returns (bool)
 
 // Define an event
-#define event TestEvent(address, uint256)
+#define event TestEvent1(address, uint256)
+#define event TestEvent2(address, uint256)
 
-#define jumptable CONDITIONAL {
-    jump_one jump_two
-}
-
-#define macro CONDITIONAL_TEST() = takes (0) returns (0) {
-    // Codecopy jump table into memory @ 0x00
-    __tablesize(MAIN__JUMP_TABLE)   // [table_size]
-    __tablestart(MAIN__JUMP_TABLE)  // [table_start, table_size]
-    0x00
-    codecopy
-
-    // Regular jumptables store the jumpdest PCs as full words,
-    // so we simply multiply the input bool by 32 to determine
-    // which label to jump to. This is not a practical example
-    // of jump table usage, see the `Jump Tables` section for
-    // a switch case example
-    0x04 calldataload        // [input_bool]
-    0x20 mul                 // [0x20 * input_bool]
-    mload                    // [pc]
-    jump                     // []
-
-    jump_one:
-        0x100 0x00 mstore
-        0x20 0x00 return
-    jump_two:
-        0x200 0x00 mstore
-        0x20 0x00 return
-}
-
-#define macro TEST() = takes (0) returns (0) {
+#define macro TEST1() = takes (0) returns (0) {
     0x00 0x00                // [address, uint]
-    __EVENT_HASH(WordAdded)  // [sig, address, uint]
+    __EVENT_HASH(TestEvent1) // [sig, address, uint]
+    0x00 0x00                // [mem_start, mem_end, sig, address, uint]
+    log3                     // []
+}
+
+#define macro TEST2() = takes (0) returns (0) {
+    0x00 0x00                // [address, uint]
+    __EVENT_HASH(TestEvent2) // [sig, address, uint]
     0x00 0x00                // [mem_start, mem_end, sig, address, uint]
     log3                     // []
 }
@@ -367,23 +343,24 @@ Pushes the code size of the macro or function passed to the stack.
 #define macro MAIN() = takes (0) returns (0) {
     // Identify which function is being called.
     0x00 calldataload 0xE0 shr
-    dup1 __FUNC_SIG(test) eq test jumpi
-    dup1 __FUNC_SIG(conditionalTest) eq conditional_test jumpi
+    dup1 __FUNC_SIG(test1) eq test1 jumpi
+    dup1 __FUNC_SIG(test2) eq test2 jumpi
 
     // Revert if no function matches
     0x00 0x00 revert
 
-    test:
-        TEST()
-    conditional_test:
-        CONDITIONAL_TEST()
+    test1:
+        TEST1()
+
+    test2:
+        TEST2()
 }
 ```
 
 ## Jump Tables
 
 Jump Tables are a convenient way to create switch cases in your
-Huff contracts. Each jump table consists of jumpdest PCs, and it is
+Huff contracts. Each jump table consists of jumpdest program counters (PCs), and it is
 written to your contract's bytecode. These jumpdest PCs can be codecopied
 into memory, and the case can be chosen by finding a jumpdest at a particular
 memory pointer (i.e. 0x00 = case 1, 0x20 = case 2, etc.). This allows for a
@@ -395,6 +372,14 @@ words, and packed Jump Tables store them each as 2 bytes. Therefore,
 packed jumptables are cheaper to copy into memory, but they are more
 expensive to pull a PC out of due to the bitshifting required. The
 opposite is true for Regular Jump Tables.
+
+There are two builtin functions related to jumptables.
+
+#### `__tablestart(TABLE)`
+Pushes the program counter (PC) of the start of the table passed to the stack.
+
+#### `__tablesize(TABLE)`
+Pushes the code size of the table passed to the stack.
 
 #### Example
 ```plaintext
