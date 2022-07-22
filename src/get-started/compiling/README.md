@@ -33,4 +33,4 @@ Below we outline the few steps it takes to compile a Huff contract.
    61000f8061000d6000396000f36004356024350160005260206000f3
    ```
 
-You can find an in-depth explanation of this contract in the tutorial (TODO: LINK THE TUTORIAL).
+You can find an in-depth explanation of this contract in [The Basics](https://docs.huff.sh/tutorial/the-basics) tutorial.
