@@ -16,6 +16,7 @@ ARGS:
 OPTIONS:
     -a, --artifacts                       Whether to generate artifacts or not
     -b, --bytecode                        Generate and log bytecode
+    -c, --constants <CONSTANTS>...        Override / set constants for the compilation 
     -d, --output-directory <OUTPUTDIR>    The output directory [default: ./artifacts]
     -g, --interface                       Generate solidity interface for a Huff artifact
     -h, --help                            Print help information
@@ -55,6 +56,17 @@ the compilation process to the console.
 Example:
 ```shell
 huffc ./src/ERC20.huff -b
+```
+
+### `-c` Constants
+
+Arguments: `[CONSTANTS]`
+
+Passing the `-c` flag allows you to override and set constants for the current compliation environment. Literals must be supplied in `0x` format and be <= 32 bytes.
+
+Example:
+```shell
+huffc ./Test.huff -c MY_CONST=0x01 MY_OTHER_CONST=0xa57b
 ```
 
 ### `-d` Output directory
