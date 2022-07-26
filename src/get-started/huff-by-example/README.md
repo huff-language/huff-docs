@@ -58,6 +58,42 @@ In order to push a constant to the stack, use bracket notation: `[CONSTANT]`
 [NUM]               // [0x420] - the constant's value is pushed to the stack
 ```
 
+## Custom Errors
+
+Custom errors can be defined and used by the `__ERROR` builtin to push the left-padded 4 byte
+error selector to the stack.
+
+#### Example
+```plaintext
+// Define our custom error
+#define error PanicError(uint256)
+#define error Error(string)
+
+#define macro PANIC() = takes (1) returns (0) {
+    // Input stack:          [panic_code]
+    __ERROR(PanicError)   // [panic_error_selector, panic_code]
+    0x00 mstore           // [panic_code]
+    0x04 mstore           // []
+    0x24 0x00 revert
+}
+
+#define macro REQUIRE() = takes (3) returns (0) {
+    // Input stack:          [condition, message_length, message]
+    continue jumpi        // [message_length, message]
+
+    __ERROR(Error)        // [error_selector, message_length, message]
+    0x00 mstore           // [message_length, message]
+    0x20 0x04 mstore      // [message_length, message]
+    0x24 mstore           // [message]
+    0x44 mstore           // []
+
+    0x64 0x00 revert
+
+    continue:
+        pop               // []
+}
+```
+
 ## Jump Labels
 
 Jump Labels are a simple abstraction included into the language to make defining
@@ -305,10 +341,13 @@ Functions can accept arguments to be "called" inside the macro or passed as a re
 
 Several builtin functions are provided by the Huff compiler:
 #### `__FUNC_SIG(<func_def|string>)`
-At compile time, the invocation of `__FUNC_SIG` is substituted with the function selector of the passed function definition or string. If a string is passed, it must represent a valid function i.e. `"test(address, uint256)"`
+At compile time, the invocation of `__FUNC_SIG` is substituted with `PUSH4 function_selector`, where `function_selector` is the 4 byte function selector of the passed function definition or string. If a string is passed, it must represent a valid function signature i.e. `"test(address, uint256)"`
 
 #### `__EVENT_HASH(<event_def|string>)`
-At compile time, the invocation of `__EVENT_HASH` is substituted with the event hash of the passed event definition or string. If a string is passed, it must represent a valid event i.e. `"TestEvent(uint256, address indexed)"`
+At compile time, the invocation of `__EVENT_HASH` is substituted with `PUSH32 event_hash`, where `event_hash` is the selector hash of the passed event definition or string. If a string is passed, it must represent a valid event signature i.e. `"TestEvent(uint256, address indexed)"`
+
+#### `__ERROR(<error_def>)`
+At compile time, the invocation of `__ERROR` is substituted with `PUSH32 error_selector`, where `error_selector` is the left-padded 4 byte error selector of the passed error definition.
 
 #### `__codesize(MACRO|FUNCTION)`
 Pushes the code size of the macro or function passed to the stack.
