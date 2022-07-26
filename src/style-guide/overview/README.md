@@ -66,6 +66,31 @@ The next aspect of this is more complicated, because it depends on the context a
 #define macro MINT() = takes(0) returns (0) {}
 ```
 
+## Natspec Comments
+
+To make Huff as easy as possible to transition to from Solidity, Natspec comments are encouraged for use in the contract.
+
+At the top of a Huff file, it is recommended to include the following natspec comments:
+
+```md
+/// @title The title of the contract
+/// @author The contract author
+/// @notice A short description of the contract
+```
+
+Macros are also encouraged to include natspec comments where useful. For example, huffmate's [Multicallable Huff Contract](https://github.com/pentagonxyz/huffmate/blob/main/src/utils/Multicallable.huff#L14-L21) contains the following macro natspec above the `MULTICALL()` macro.
+
+```md
+/// @notice Multicall function entry point.
+/// @dev This macro should be placed alone under a function selector's jump label.
+///
+///      Expected calldata: `bytes[]` containing valid ABI-encoded function calls
+///      as elements.
+///
+///      Note: this macro only allows for multicalling functions that are within
+///      the contract it is invoked in.
+```
+
 ## Code Comments
 
 Comments should use the double slash (`//`) syntax, unless they are used to mark a new section of the codebase (see above).
@@ -77,7 +102,7 @@ Comments describing the functionality of a statement, macro, etc should be on th
 #define constant OWNER_SLOT = FREE_STORAGE_POINTER()
 ```
 
-Comments indicating the stack *after* an instruction should be on the right of the instruction. Instruction comments within the same code block should be aligned vertically with the right-most instruction comment. The right-most instruction comment should be one “tab” from 
+Comments indicating the stack *after* an instruction should be on the right of the instruction. Instruction comments within the same code block should be aligned vertically with the right-most instruction comment. The right-most instruction comment should be one “tab” from the right of the instruction.
 
 ```solidity
 0x20    // [value]
@@ -113,7 +138,7 @@ The contract entry point should contain the function selector switch first, with
 // Entry point.
 #define function add(uint256, uint256) view returns (uint256)
 #define function sub(uint256, uint256) view returns (uint256)
- 
+
 #define macro MAIN() = takes (0) returns (0) {
     // Grab the function selector from the calldata
     0x00 calldataload 0xE0 shr                 // [selector]
