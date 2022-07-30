@@ -16,7 +16,7 @@ forge install huff-language/foundry-huff
 You also must add the following line to your `foundry.toml` file to ensure that the foundry-huff library has access to your environment in order to compile the contract:
 
 ```shell
-ffi = true;
+ffi = true
 ```
 
 You can then use `HuffDeployer` contract to compile and deploy your Huff contracts for you using the `deploy` function. Here's a quick example:
