@@ -19,7 +19,7 @@ First things first. If you're coming from a higher level language like Solidity 
 Go ahead and paste the above example at the top of `addTwo.huff`. This declares a function that takes two `uint256` inputs and returns a single `uint256`.
 
 ### The Main Macro
-The next thing we are going to create is the `MAIN macro`. This serves a single entry point for Huff contracts. All calls a contract (regardless of what function they are calling) will start from `MAIN`! In this example we will define a `MAIN` function that will read two `uint256`'s from calldata and return their result.
+The next thing we are going to create is the `MAIN macro`. This serves a single entry point for Huff contracts. All calls to a contract (regardless of what function they are calling) will start from `MAIN`! In this example we will define a `MAIN` function that will read two `uint256`'s from calldata and return their result.
 
 ```Huff
 #define macro MAIN() = takes(0) returns(0) {
@@ -44,7 +44,7 @@ The bytecode output of the compiler will echo the following into the console `60
 
 When you deploy this contract code it will have the runtime bytecode of the main macro we just created! In the above snippet you will find it after the first `f3` (the preceding bytecode is boiler plate constructor logic.)
 That leaves us with this: `6000356020350160005260206000f3`
-Below expands this example dissembles what you have just created!
+Below, this example dissembles what you have just created!
 
 ```
  BYTECODE          MNEMONIC         STACK                 ACTION
@@ -60,9 +60,9 @@ Below expands this example dissembles what you have just created!
  f3             // RETURN           // []                 Return the first 32 bytes of memory
 ```
 
-If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?unit=Wei&codeType=Bytecode&code='~3560203501~526020~f3'~6000%01~_) (pass in the calldata `0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002` and click RUN to get started). This calldata is the numbers 1 and 2, both padded to 32 bytes. After running this snippet, you should end up with a return value of `0000000000000000000000000000000000000000000000000000000000000003`. Which is expected! `addTwo.huff` successfully added the numbers 1 and 2, returning 3! If you are new to working with assembly I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning.
+If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?unit=Wei&codeType=Bytecode&code='~3560203501~526020~f3'~6000%01~_) (pass in the calldata `0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002` and click RUN to get started). This calldata is the numbers 1 and 2, both padded to 32 bytes. After running this snippet, you should end up with a return value of `0000000000000000000000000000000000000000000000000000000000000003`. Which is expected! `addTwo.huff` successfully added the numbers 1 and 2, returning 3! If you are new to working with assembly, I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning.
 
-In the next section we will walk through your contract's execution given that provide the calldata for 2 + 3. Encoded into uint256's (32 bytes) the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`.
+In the next section we will walk through your contract's execution given that you provide the calldata for 2 + 3. Encoded into uint256's (32 bytes) the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`.
 
 This is illustrated in the table below:
 | Type      | Value | As calldata |
