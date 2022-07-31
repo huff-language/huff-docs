@@ -17,7 +17,7 @@ Then, you can build and/or run tests with the following commands:
 
 ```bash
 forge build
-forge install
+forge test
 ```
 
 Inside the template, there is a contract in the `src/` directory (the default location for huff contracts) called `src/SimpleStore.huff`.  This contract demonstrates a simple contract to set and get values stored in the contract, with the functions being (as defined by the function annotations at the top of the contract):
