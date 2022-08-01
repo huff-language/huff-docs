@@ -91,6 +91,6 @@ SLOAD 0x01                                // [coffee_addr, dead_addr]
 
 ----
 
-For more information on the EVM, see the [Resources](./resources/overview) section of the docs.
+For more information on the EVM, see the [Resources](../../resources/overview/#other-resources) section of the docs.
 
 If any of this confuses you, don't worry! While reading about the EVM will teach you the basics, actually writing assembly serves as the best way to get the hang of it (and it's the most fun). Let's dive into some simple projects.
