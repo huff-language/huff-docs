@@ -29,7 +29,7 @@ heroText: The Huff Docs.
     <p>Dive into the main parts of Huff accompanied by extensive examples.</p>
   </a>
 
-  <a class="feature" href="/resources/">
+  <a class="feature" href="/resources/overview/">
     <h2>Resources</h2>
     <p>Documentation, Third-party tools, Examples, and other useful resources.</p>
   </a>
