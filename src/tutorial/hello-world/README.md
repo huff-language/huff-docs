@@ -26,25 +26,24 @@ The following `MAIN` macro steps through this encoding in a clear way.
 
 #define macro MAIN() = takes(0) returns(0) {
     // store dynamic offset of 0x20 at 0x00
-    0x20                                // [0x20]
-    0x00                                // [0x00, 0x20]
-    mstore                              // []
+    0x20                                     // [0x20]
+    0x00                                     // [0x00, 0x20]
+    mstore                                   // []
 
     // store string length of 0x0d at 0x20
-    0x0d                                // [0x0d]
-    0x20                                // [0x20, 0x0d]
-    mstore                              // []
+    0x0d                                     // [0x0d]
+    0x20                                     // [0x20, 0x0d]
+    mstore                                   // []
 
     // store bytes for "Hello, world!" at 0x40
-    0x48656c6c6f2c20776f726c642100000000000000000000000000000000000000  // <- we have to right pad this because its bytes
-                                        // ["Hello, world!"]
-    0x40                                // [0x40, "Hello, world!"]
-    mstore                              // []
+    __RIGHTPAD(0x48656c6c6f2c20776f726c6421) // ["Hello, world!"]
+    0x40                                     // [0x40, "Hello, world!"]
+    mstore                                   // []
 
     // return full 96 byte value
-    0x60                                // [0x60]
-    0x00                                // [0x00, 0x60]
-    return                              // []
+    0x60                                     // [0x60]
+    0x00                                     // [0x00, 0x60]
+    return                                   // []
 }
 
 ```
