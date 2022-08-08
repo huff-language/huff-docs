@@ -56,7 +56,7 @@ Below, this example dissembles what you have just created!
  60 00          // PUSH1 0x00       // [0x0, (n2+n1)]
  52             // MSTORE           // []                 Store (n2+n1) in the first 32 bytes of memory
  60 20          // PUSH1 0x20       // [0x20]
- 60 00          // PUSH1 0x00       // [0x20, 0x00]
+ 60 00          // PUSH1 0x00       // [0x00, 0x20]
  f3             // RETURN           // []                 Return the first 32 bytes of memory
 ```
 
@@ -102,7 +102,7 @@ The third line of our calls the add opcode. This will take the top two items fro
 
 ***Lines 4 and 5***
 The remainder of the contract is concerned with returning the result. EVM contracts can only return values that have been stored within the current executions memory frame. This is as the return opcode takes two values as inputs. The offset of memory to start returning from, and the length of memory to return.
-In this case the `return` opcode will consume `[0x20, 0x00]`. Or 32 bytes in memory starting from byte 0.
+In this case the `return` opcode will consume `[0x00, 0x20]`. Or 32 bytes in memory starting from byte 0.
 
 This explains what `0x00 mstore` is there for. `mstore` takes two items from the stack, `[location_in_memory, value]`. In our case we have `[0x00, 0x5]`, this stores the value 5 into memory.
 
