@@ -412,7 +412,7 @@ packed jumptables are cheaper to copy into memory, but they are more
 expensive to pull a PC out of due to the bitshifting required. The
 opposite is true for Regular Jump Tables.
 
-There are two builtin functions related to jumptables.
+There are two builtin functions related to tables, they work on both jump and code tables.
 
 #### `__tablestart(TABLE)`
 Pushes the program counter (PC) of the start of the table passed to the stack.
@@ -490,5 +490,16 @@ somewhere within the contract.
 ```plaintext
 #define table CODE_TABLE {
     0x604260005260206000F3
+}
+
+#define macro MAIN() = takes (0) returns (0) {
+  __tablesize(CODE_TABLE)  // [size]
+  // copy table to memory
+  dup1                     // [size, size]
+  __tablestart(CODE_TABLE) // [start, size, size]
+  returndatasize           // [0, start, size, size]
+  mstore                   // [size]
+  returndatasize           // [0, size]
+  return 
 }
 ```
