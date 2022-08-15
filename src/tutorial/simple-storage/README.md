@@ -170,4 +170,4 @@ Now all of it together!
 }
 ```
 
-Congratulations! You've made it through the crust of writing contracts in Huff. For your next steps we recommend taking what you have learned so far in addTwo, "Hello, World!" and SimpleStorage into a testing framework like [Foundry](http://localhost:8080/tutorial/huff-testing/). Happy hacking!
+Congratulations! You've made it through the crust of writing contracts in Huff. For your next steps we recommend taking what you have learned so far in addTwo, "Hello, World!" and SimpleStorage into a testing framework like [Foundry](https://docs.huff.sh/tutorial/huff-testing/). Happy hacking!
