@@ -135,7 +135,8 @@ over the other.
 Both are defined similarly, taking optional arguments as well as being followed
 by the `takes` and `returns` keywords. These designate the amount of stack
 inputs the macro/function takes in as well as the amount of stack elements the
-macro/function outputs.
+macro/function outputs. The `takes` and `returns` keywords are optional- if they are
+not present, the value will default to `0`.
 
 ```plaintext
 #define <macro|fn> TEST(err) = takes (1) returns (3) {
@@ -158,6 +159,11 @@ your contract is called, the `MAIN` macro will be the fallback, and it is common
 a Huff contract's control flow begins. The `CONSTRUCTOR` macro, while not required,
 can be used to initialize the contract upon deployment. Inputs to the `CONSTRUCTOR` macro
 are provided at compile time.
+
+By default, the `CONSTRUCTOR` will add some bootstrap code that returns the compiled MAIN macro
+as the contract's runtime bytecode. If the constructor contains a `RETURN` opcode, the compiler
+will not include this bootstrap, and it will instead instantiate the contract with the code returned
+by the constructor.
 
 #### Macro Arguments
 
@@ -349,6 +355,9 @@ At compile time, the invocation of `__EVENT_HASH` is substituted with `PUSH32 ev
 #### `__ERROR(<error_def>)`
 At compile time, the invocation of `__ERROR` is substituted with `PUSH32 error_selector`, where `error_selector` is the left-padded 4 byte error selector of the passed error definition.
 
+#### `__RIGHTPAD(<literal>)`
+At compile time, the invocation of `__RIGHTPAD` is substituted with `PUSH32 padded_literal`, where `padded_literal` is the right padded version of the passed literal.
+
 #### `__codesize(MACRO|FUNCTION)`
 Pushes the code size of the macro or function passed to the stack.
 
@@ -490,5 +499,42 @@ somewhere within the contract.
 ```plaintext
 #define table CODE_TABLE {
     0x604260005260206000F3
+}
+```
+
+## Huff Tests
+
+The compiler includes a simple, stripped-down testing framework to assist in creating assertions
+as well as gas profiling macros and functions. huff-rs’ test suite is intentionally lacking in features,
+and with that, this addition is not meant to replace developers’ dependency on `foundry-huff`. Ideally, 
+for contracts that will be in production, Huff developers will utilize both foundry and Huff tests. 
+If you are one of many who uses Huff as a tool for learning, Huff tests can also be a lighter weight 
+experience when testing your contract’s logic.
+
+Tests can be ran via the CLI's `test` subcommand. For more information, see the [CLI Resources](/resources/cli/).
+
+### Decorators
+The transaction environment for each test can be modified with a decorator. Decorators sit directly above
+tests, and are formatted as follows: `#[flag_a(inputs...), flag_b(inputs...)]`
+
+Available decorators include:
+* `calldata` - Set the calldata for the transaction environment. Accepts a single string of calldata bytes.
+* `value` - Set the callvalue for the transaction environment. Accepts a single literal.
+
+#### Example
+```plaintext
+#include "huffmate/utils/Errors.huff"
+
+#define macro ADD_TWO() = takes (2) returns (1) {
+    // Input Stack:  [a, b]
+    add           // [a + b]
+    // Return Stack: [a + b]
+}
+
+#[calldata("0x0000000000000000000000000000000000000000000000000000000000000001"), value(0x01)]
+#define test MY_TEST() = {
+    0x00 calldataload   // [0x01]
+    callvalue           // [0x01, 0x01]
+    eq ASSERT()
 }
 ```

@@ -9,7 +9,7 @@ Below we outline the few steps it takes to compile a Huff contract.
    ```javascript
    #define function add(uint256,uint256) nonpayable returns (uint256)
 
-   #define macro MAIN() = takes(0) returns (1) {
+   #define macro MAIN() = {
       // Load our numbers from calldata and add them together.
       0x04 calldataload // [number1]
       0x24 calldataload // [number2]
