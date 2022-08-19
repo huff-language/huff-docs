@@ -7,8 +7,11 @@ library, the [compiler](https://github.com/huff-language/huff-rs)'s CLI offers s
 ## Options
 
 ```plaintext
+huffc 0.3.0
+Huff Language Compiler built in Pure Rust.
+
 USAGE:
-    huffc [OPTIONS] [--] [PATH]
+    huffc [OPTIONS] [PATH] [SUBCOMMAND]
 
 ARGS:
     <PATH>    The contract(s) to compile
@@ -16,18 +19,22 @@ ARGS:
 OPTIONS:
     -a, --artifacts                       Whether to generate artifacts or not
     -b, --bytecode                        Generate and log bytecode
-    -c, --constants <CONSTANTS>...        Override / set constants for the compilation 
+    -c, --constants <CONSTANTS>...        Override / set constants for the compilation environment
     -d, --output-directory <OUTPUTDIR>    The output directory [default: ./artifacts]
-    -g, --interface                       Generate solidity interface for a Huff artifact
+    -g, --interface [<INTERFACE>...]      Generate solidity interface for a Huff artifact
     -h, --help                            Print help information
     -i, --inputs <INPUTS>...              The input constructor arguments
     -n, --interactive                     Interactively input the constructor args
     -o, --output <OUTPUT>                 The output file path
-    -p, --print                           Prints out to the terminal
+    -r, --bin-runtime                     Generate and log runtime bytecode
     -s, --source-path <SOURCE>            The contracts source path [default: ./contracts]
     -v, --verbose                         Verbose output
     -V, --version                         Print version information
     -z, --optimize                        Optimize compilation [WIP]
+
+SUBCOMMANDS:
+    help    Print this message or the help of the given subcommand(s)
+    test    Test subcommand
 ```
 
 ### `-a` Artifacts
@@ -143,6 +150,11 @@ Example:
 huffc -s ./src/
 ```
 
+### `-r` Runtime Bytecode
+
+Passing the `-r` flag will tell the compiler to print the runtime bytecode
+of the compiled contract.
+
 ### `-v` Verbose Output
 
 Passing the `-v` flag will tell the compiler to print verbose output during
@@ -157,3 +169,15 @@ huffc ./src/ERC20.huff -v
 ### `-z` Optimize
 
 Not yet implemented in [the compiler](https://github.com/huff-language/huff-rs).
+
+## Subcommands
+
+### `test`
+
+- Format: `huffc ./path/to/Contract.huff test [-f <list|table|json>] [-m <TEST_NAME>]`
+
+The test subcommand is the entry point to running tests within a Huff contract.
+
+#### Optional Flags
+* `-f` or `--format`: Formats the test report as a list, table, or JSON.
+* `-m` or `--match`: Runs a specific test with the name passed to this flag.
