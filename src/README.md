@@ -19,7 +19,7 @@ heroText: The Huff Docs.
     <p>Understand how the EVM works at a very low level.</p>
   </a>
 
-  <a class="feature" href="/tutorial/project-template/">
+  <a class="feature" href="/get-started/project-quickstart/">
     <h2>Huff Project Template</h2>
     <p>Learn the ins-and-outs of the official Huff Project Template.</p>
   </a>
