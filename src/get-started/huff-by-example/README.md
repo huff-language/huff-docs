@@ -135,7 +135,7 @@ over the other.
 Both are defined similarly, taking optional arguments as well as being followed
 by the `takes` and `returns` keywords. These designate the amount of stack
 inputs the macro/function takes in as well as the amount of stack elements the
-macro/function outputs. The `takes` and `returns` keywords are optional- if they are
+macro/function outputs. The `takes` and `returns` keywords are optional - if they are
 not present, the value will default to `0`.
 
 ```plaintext
