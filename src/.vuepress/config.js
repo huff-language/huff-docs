@@ -14,16 +14,14 @@ module.exports = {
     ],
   ],
 
-  plugins: [
-    ['@dovyp/vuepress-plugin-clipboard-copy', true]
-  ],
+  plugins: [["@dovyp/vuepress-plugin-clipboard-copy", true]],
 
   theme: "default-prefers-color-scheme",
   themeConfig: {
     overrideTheme: "dark",
-    ostname: 'https://docs.huff.sh',
-    docsRepo: 'https://github.com/huff-language/huff-docs',
-    docsBranch: 'main',
+    ostname: "https://docs.huff.sh",
+    docsRepo: "https://github.com/huff-language/huff-docs",
+    docsBranch: "main",
     docsDir: "src",
     nav: [
       { text: "Home", link: "/" },
@@ -58,6 +56,7 @@ module.exports = {
             "/tutorial/the-basics/",
             "/tutorial/hello-world/",
             "/tutorial/simple-storage/",
+            "/tutorial/function-dispatching/",
             "/tutorial/huff-testing/",
           ],
         },
@@ -66,28 +65,21 @@ module.exports = {
         {
           title: "Style Guide",
           collapsable: false,
-          children: [
-            "/style-guide/overview/",
-          ],
+          children: ["/style-guide/overview/"],
         },
       ],
       "/resources/": [
         {
           title: "Resources",
           collapsable: false,
-          children: [
-            "/resources/overview/",
-            "/resources/cli/"
-          ]
+          children: ["/resources/overview/", "/resources/cli/"],
         },
       ],
       "/contribute/": [
         {
           title: "Contribute",
           collapsable: false,
-          children: [
-            "/contribute/overview/",
-          ],
+          children: ["/contribute/overview/"],
         },
       ],
     },

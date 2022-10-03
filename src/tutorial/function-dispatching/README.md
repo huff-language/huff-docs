@@ -4,11 +4,13 @@ Function dispatching is something that is fundamental to any Huff contract. Unli
 
 ## What is the problem?
 
-In the evm contracts are interacted with by sending very messages to them. Thankfully there is a globally accepted standard for encoding these messages that is know as the ABI standard. The ABI standard handles how inputs to functions should be encoded. Be it a `uint256` or a dynamic type like a `string`. This strict standard is what allows contracts to understand each other under the hood. The ABI standard also tells the contract which function the message tends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the `keccak` of a function's signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
+In the evm contracts are interacted with by sending messages to them. The ABI standard exists as a canon way to encode these messages, handling how inputs to functions should be encoded. These strict rules is what allows contracts to understand each other. The ABI standard also tells the contract which function the message intends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the `keccak` of a function's signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
+
+The rest of this section will detail two types of dispatching, linear dispatching and binary search dispatching.
 
 ## Linear Dispatching
 
-From reading the above, or from reading a Huff contract before you may have developed some intuition about how the simplest way to perform dispatching is - A linear lookup. This method will extract the function selector from the calldata message, then brute force compare it to every function that the contract contains.
+From reading the above, or from reading a Huff contract before you may have developed some intuition about how the simplest way to perform dispatching is - A linear lookup. This method will extract the function selector from the calldata message, then brute force compare it to every other function in the contract.
 
 The example below shows what a linear dispatcher may look like for a standard ERC20 token:
 
@@ -33,8 +35,7 @@ The example below shows what a linear dispatcher may look like for a standard ER
 // Function Dispatching
 #define macro MAIN() = takes (1) returns (1) {
     // Identify which function is being called.
-    // [func sig]
-    0x00 calldataload 0xE0 shr
+    0x00 calldataload 0xE0 shr          // [func_sig]
 
     dup1 __FUNC_SIG(permit)             eq permitJump           jumpi
     dup1 __FUNC_SIG(nonces)             eq noncesJump           jumpi
@@ -82,11 +83,19 @@ The example below shows what a linear dispatcher may look like for a standard ER
 }
 ```
 
-Despite this seeming like a rather naive approach, for most contracts it is often the most effective. As you can imagine this is one large `if` `else if` chain, therefore functions at the back of the chain will cost more gas to invoke. You can use this to your advantage to move hot functions towards the top of the dispatch.
+There is one extremely important piece of code you will use in almost all of your Huff contracts:
 
-This method seems naive, however this is exactly how Vyper and Solidity\* implement function dispatching. If you want it to be cheaper to call, just move it higher up in the contract!
+```huff
+0x00 calldataload 0xE0 shr
+```
 
-- Solidity only implements this method if there are less than 4 functions in a contract.
+This loads the four byte function selector onto the stack. `0x00 calldataload` will load 32 bytes starting from position 0 onto the stack (if the calldata is less than 32 bytes then it will be right padded with zeros). `0xE0 shr` right shifts the calldata by 224 bits. Leaving 24 bits or 4 bytes remaining on the stack.
+
+Despite this seeming like a rather naive approach, for most contracts it is often the most effective. As this is one large `if` `else if` chain, you can optimize by placing "hot functions" towards the top of your chain. Functions towards the front will cost less gas to invoke, but be aware as your function approaches the end of the chain it can really get expensive!
+
+This method seems naive, however this is exactly how Vyper and Solidity\* implement linear dispatching. If you want it to be cheaper to call, just move it higher up in the contract!
+
+\* Solidity only implements this method if there are less than 4 functions in a contract.
 
 ## Binary Search Dispatching
 
