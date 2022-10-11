@@ -4,7 +4,7 @@ Function dispatching is something that is fundamental to any Huff contract. Unli
 
 ## What is the problem?
 
-In the evm, contracts are interacted with by sending messages to them. The ABI standard exists as a canonical way to encode these messages, handling how inputs to functions should be encoded. These strict rules are what allow contracts to understand each other. The ABI standard also tells the contract which function the message intends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the `keccak` of a function's signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
+In the evm, contracts are interacted with by sending messages to them. The ABI standard exists as a canonical way to encode these messages, handling how inputs to functions should be encoded. These strict rules are what allow contracts to understand each other. The ABI standard also tells the contract which function the message intends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the first 4 bytes of the `keccak` of the function's signature string. For example, the keccak256 hash of the string "myFunction(address,uint256)" is `0x451c00ddd225deee9948ba5eca26042a5ea1cc0980e5a5fb0a057f90567af5e0`.  So the first 4 bytes `0x451c00dd` is what Solidity uses as the function signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
 
 The rest of this section will detail two types of dispatching, linear dispatching and binary search dispatching.
 
@@ -139,7 +139,7 @@ For example:
 
 In the above macro, regardless if what message is sent to it, it will ALWAYS return the value 1. As the macro `RETURN_TWO` does not terminate, it will roll over into the execution of `RETURN_ONE`, terminating with returning the value one. As there is no guard to protect against non valid function signatures any message, even if it matches nothing in the dispatcher will return the value 1.
 
-To protect against no valid function selector being found we can include `0x00 0x00 revert` in-between our dispatcher and our macro jump labels as so:
+One way we can handle no valid function selector being found is by inserting `0x00 0x00 revert` in-between our dispatcher and our macro jump labels as so:
 
 ```huff
 #define macro MAIN() = {
@@ -157,7 +157,7 @@ To protect against no valid function selector being found we can include `0x00 0
 }
 ```
 
-Please keep this behavior in mind when writing Huff contracts, especially when dealing with administration functions, running into a `SET_OWNER()` macro could allow anyone to take control of your contract.
+Please keep this behavior in mind when writing Huff contracts, especially when dealing with administration functions, running into a `SET_OWNER()` macro could allow anyone to take control of your contract.  There is a more advanced way of jumping over the macro calling logic that is used with Huff "inheritance" pattern that we will discuss in another section.
 
 ## Binary Search Dispatching
 
