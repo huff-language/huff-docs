@@ -4,7 +4,7 @@ Function dispatching is something that is fundamental to any Huff contract. Unli
 
 ## What is the problem?
 
-In the evm, contracts are interacted with by sending messages to them. The ABI standard exists as a canonical way to encode these messages, handling how inputs to functions should be encoded. These strict rules are what allow contracts to understand each other. The ABI standard also tells the contract which function the message intends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the first 4 bytes of the `keccak` of the function's signature string. For example, the keccak256 hash of the string "myFunction(address,uint256)" is `0x451c00ddd225deee9948ba5eca26042a5ea1cc0980e5a5fb0a057f90567af5e0`.  So the first 4 bytes `0x451c00dd` is what Solidity uses as the function signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
+In the evm, contracts are interacted with by sending messages to them. The ABI standard exists as a canonical way to encode these messages, handling how inputs to functions should be encoded. These strict rules are what allow contracts to understand each other. The ABI standard also tells the contract which function the message intends to interact with. This is done by encoding a 4 byte selector at the beginning of the message. This 4 byte selector is the first 4 bytes of the `keccak` of the function's signature string. For example, the keccak256 hash of the string "myFunction(address,uint256)" is `0x451c00ddd225deee9948ba5eca26042a5ea1cc0980e5a5fb0a057f90567af5e0`. So the first 4 bytes `0x451c00dd` is what Solidity uses as the function signature. If you have written interfaces in solidity you may not realize that you are just providing your current contract the ability to generate the 4 byte selectors of a foreign contract.
 
 The rest of this section will detail two types of dispatching, linear dispatching and binary search dispatching.
 
@@ -26,8 +26,6 @@ The example below shows what a linear dispatcher may look like for a standard ER
 #define function totalSupply() view returns (uint256)
 #define function transfer(address,uint256) nonpayable returns ()
 #define function transferFrom(address,address,uint256) nonpayable returns ()
-
-// Metadata
 #define function decimals() nonpayable returns (uint256)
 #define function name() nonpayable returns (string)
 #define function symbol() nonpayable returns (string)
@@ -157,7 +155,7 @@ One way we can handle no valid function selector being found is by inserting `0x
 }
 ```
 
-Please keep this behavior in mind when writing Huff contracts, especially when dealing with administration functions, running into a `SET_OWNER()` macro could allow anyone to take control of your contract.  There is a more advanced way of jumping over the macro calling logic that is used with Huff "inheritance" pattern that we will discuss in another section.
+Please keep this behavior in mind when writing Huff contracts, especially when dealing with administration functions, running into a `SET_OWNER()` macro could allow anyone to take control of your contract. There is a more advanced way of jumping over the macro calling logic that is used with Huff "inheritance" pattern that we will discuss in another section.
 
 ## Binary Search Dispatching
 
@@ -179,8 +177,6 @@ Here is an example implementation of a binary search dispatch.
 #define function totalSupply() view returns (uint256)
 #define function transfer(address,uint256) nonpayable returns ()
 #define function transferFrom(address,address,uint256) nonpayable returns ()
-
-// Metadata
 #define function decimals() nonpayable returns (uint256)
 #define function name() nonpayable returns (string)
 #define function symbol() nonpayable returns (string)
