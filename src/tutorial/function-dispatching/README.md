@@ -186,7 +186,7 @@ Here is an example implementation of a binary search dispatch.
 #define function symbol() nonpayable returns (string)
 
 // Function Dispatching
-#define macro ERC20_MAIN() = takes (1) returns (1) {
+#define macro MAIN() = takes (1) returns (1) {
     // Identify which function is being called.
     // [func sig]
     0x00 calldataload 0xE0 shr
@@ -195,7 +195,7 @@ Here is an example implementation of a binary search dispatch.
     dup1 __FUNC_SIG(balanceOf) lt pivot0 jumpi
 
         // pivot 2
-        dup1 __FUNC_SIG(totalSupply) lt pivot00jumpi
+        dup1 __FUNC_SIG(totalSupply) lt pivot00 jumpi
 
             // 1
             dup1 __FUNC_SIG(name)               eq nameJump             jumpi
