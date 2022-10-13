@@ -1,15 +1,19 @@
 # The Basics
 
 ## Installation
+
 Before you get started writing Huff you will have to install the compiler. Head over to [getting started](https://docs.huff.sh/get-started/overview/) and follow the steps to get it installed.
 Once complete - come back here!!
 
 ## What you are going to learn?
+
 Unlike other programming languages, creating a Huff contract that returns "Hello, world!" is quite advanced! To keep things simple we are going to learn how to create a Huff contract that adds two numbers (then we will dive into "Hello, world!").
 Open up your editor and create a file called `addTwo.huff`. Lets jump in.
 
 ## Add Two
+
 ### ABI declaration
+
 First things first. If you're coming from a higher level language like Solidity or Vyper you will be familiar with defining "external" or "public" functions. These allow you to interact with a contract externally by generating an ABI (Application Binary Interface). This describes a contracts entry points to external tools (We will dive more into this later). In this aspect Huff is exactly the same, you can declare functions that will appear in the abi at the top of the file.
 
 ```Huff
@@ -19,6 +23,7 @@ First things first. If you're coming from a higher level language like Solidity 
 Go ahead and paste the above example at the top of `addTwo.huff`. This declares a function that takes two `uint256` inputs and returns a single `uint256`.
 
 ### The Main Macro
+
 The next thing we are going to create is the `MAIN macro`. This serves a single entry point for Huff contracts. All calls to a contract (regardless of what function they are calling) will start from `MAIN`! In this example we will define a `MAIN` function that will read two `uint256`'s from calldata and return their result.
 
 ```Huff
@@ -65,42 +70,44 @@ If you want to step through the execution yourself you can check out this snippe
 In the next section we will walk through your contract's execution given that you provide the calldata for 2 + 3. Encoded into uint256's (32 bytes) the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`.
 
 This is illustrated in the table below:
-| Type      | Value | As calldata |
+| Type | Value | As calldata |
 | ----------- | ----------- | ----------- |
-| uint256      | 2       |  0000000000000000000000000000000000000000000000000000000000000002         |
-| uint256   | 3        |   0000000000000000000000000000000000000000000000000000000000000003        |
+| uint256 | 2 | 0000000000000000000000000000000000000000000000000000000000000002 |
+| uint256 | 3 | 0000000000000000000000000000000000000000000000000000000000000003 |
 
 By putting the two together, we will send the following calldata to the contract.
+
 ```
 0x00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003
 ```
 
 ### Execution Walk Through
-***Line 1:*** `0x00 calldataload`
+
+**_Line 1:_** `0x00 calldataload`
 
 This line reads the first 32 bytes of calldata onto the stack. The `calldataload` opcode takes a calldata offset from the stack as it's input and returns 32bytes from that offset onto the stack.
 
-*Stack after operation:* `[2]`
+_Stack after operation:_ `[2]`
 
 ---
 
-***Line 2:*** `0x20 calldataload`
+**_Line 2:_** `0x20 calldataload`
 
-Similarly, the second line reads the second 32 bytes of our calldata. By pushing the hex number  `0x20` (32) onto the triggering `calldataload`.
+Similarly, the second line reads the second 32 bytes of our calldata. By pushing the hex number `0x20` (32) onto the triggering `calldataload`.
 
-*Stack after operation:* `[3,2]`
+_Stack after operation:_ `[3,2]`
 
 ---
 
-***Line 3:*** `add`
+**_Line 3:_** `add`
 
 The third line of our calls the add opcode. This will take the top two items from the stack as inputs and return the sum of those two numbers. For the inputs `[3,2]` the result is `[5]`
 
-*Stack after operation* `[5]`
+_Stack after operation_ `[5]`
 
 ---
 
-***Lines 4 and 5***
+**_Lines 4 and 5_**
 The remainder of the contract is concerned with returning the result. EVM contracts can only return values that have been stored within the current executions memory frame. This is as the return opcode takes two values as inputs. The offset of memory to start returning from, and the length of memory to return.
 In this case the `return` opcode will consume `[0x00, 0x20]`. Or 32 bytes in memory starting from byte 0.
 
@@ -109,13 +116,17 @@ This explains what `0x00 mstore` is there for. `mstore` takes two items from the
 ---
 
 ### Interacting with this contract externally
+
 As mentioned before, EVM contracts use an ABI to determine which function should be called. Currently, people interacting with addTwo's execution is linear, allowing only one functionality. Most contracts will want to have more than one function. In order to accommodate for this we will have to do a little bit of restructuring.
 
 The contract ABI specification dictates that contract calls will select which function they want to call by appending a 4 byte (function selector) to their calls. The 4 bytes are sliced from the start of the keccak of the function's abi definition. For example, `addTwo(uint256,uint256)`'s function selector will become `0x0f52d66e` (You can confirm this by using a command line tool such as [`cast`](https://book.getfoundry.sh/cast/)'s `sig` command, or online sites such as [keccak256 online](https://emn178.github.io/online-tools/keccak_256.html)). If you are curious as to what these look like you can find a registry of common 4byte function selectors in the [4 byte directory](https://www.4byte.directory/).
 
+Calculating the function selector each time can be tedious. To make life easy, huff has an included builtin `__FUNC_SIG()`. If a function interface is declared within the file's current scope, it's function selector will be calculated and inlined for you. You can view more information about huff's builtin functions [here](/get-started/huff-by-example/#func-sig-func-def-string).
+
 #### Modifying our contract to accept external function calls
 
 To accept external calls for multiple functions we will have to extract our `addTwo` logic into another macro. Then convert our `MAIN` macro into a function dispatcher.
+
 ```Huff
 #define function addTwo(uint256,uint256) view returns(uint256)
 
@@ -148,6 +159,7 @@ The first modifications we make will be within the ADD_TWO macro. On lines 1 and
 
 Our `MAIN` macro has changed drastically.
 The first 4 lines are concerned with isolating the function selector from the calldata.
+
 1. `0x00` pushed `[0]` onto the stack
 2. `calldataload` takes `[0]` as input and pushes the first 32 bytes of calldata onto the stack
 3. `0xE0` pushes `[224]` onto the stack. This magic number represents 256 bits - 32 bits (28 bytes).
