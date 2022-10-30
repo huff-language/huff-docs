@@ -4,15 +4,18 @@ Note: This section is a continuation of ['The Basics'](/tutorial/the-basics/). I
 
 ---
 
+Within ['The Basics'](/tutorial/the-basics/) we mentioned how `"Hello, world!"` is quite an advanced concept for Huff. The reason being that we need to have an understanding of how strings are encoded in the EVM.
 
-Within ['The Basics'](/tutorial/the-basics/) we mentioned how `"Hello, world!"` is quite an advanced concept for Huff. The reason being that we have to an understanding of how string's are encoded in the EVM.
 ## Primer: ABI Encoding
+
 As strings are dynamic types it is not as simple as returning the UTF-8 values for `"Hello, world!"` (`0x48656c6c6f2c20776f726c6421`). In the ABI standard, dynamic types are encoded in 3 parts, each which takes a full word (32 bytes) of memory.
+
 1. The offset of the dynamic data. (pointer to the start of the dynamic data, uint256)
 2. The length of the dynamic data. (uint256)
 3. The values of the dynamic data. (dynamic length)
 
 Each part will look as follows for the string `"Hello, world!"`:
+
 ```
 Memory loc      Data
 0x00            0000000000000000000000000000000000000000000000000000000000000020 // The location of the "Hello, world!" data
@@ -21,7 +24,9 @@ Memory loc      Data
 ```
 
 ## Implementation
+
 The following `MAIN` macro steps through this encoding in a clear way.
+
 ```
 
 #define macro MAIN() = takes(0) returns(0) {
@@ -52,7 +57,7 @@ Have a look how memory is set and what is returned interactively with [evm.codes
 
 ## Advanced topic - The Seaport method of returning strings
 
-Notice in the previous example that 3 adjacent words (32 bytes each) are being stored in memory.  The 1st word is the offset and the 2nd word is the length.  Both of these are left padded as all values are.  The 3rd word is right padded because its bytes.  Notice the length and the bytes are adjacent to each other in the memory schema.  The length, "0d" is in memory location 0x3F and the first byte of "Hello, world!", 0x48, is stored at 0x40.
+Notice in the previous example that 3 adjacent words (32 bytes each) are being stored in memory. The 1st word is the offset and the 2nd word is the length. Both of these are left padded as all values are. The 3rd word is right padded because its bytes. Notice the length and the bytes are adjacent to each other in the memory schema. The length, "0d" is in memory location 0x3F and the first byte of "Hello, world!", 0x48, is stored at 0x40.
 
 If we take the length (`0x0d`) and the bytes (`0x48656c6c6f2c20776f726c6421`), and concatenate them, we would get: `0x0d48656c6c6f2c20776f726c6421` which becomes left padded value of:
 
@@ -62,7 +67,7 @@ If we take the length (`0x0d`) and the bytes (`0x48656c6c6f2c20776f726c6421`), a
 
 Now, instead of starting the second word at `0x20`, if we offset that by 13 bytes (starting at `0x2d` instead of `0x20`) then it lines up so that the `0d` falls in the right most (lowest) bits of the second word (location 0x3F) and the remaining bytes start immediately in the first leftmost (highest) byte of the third word (location 0x40).
 
-This is a common technique in Huff and was also made popular by [Seaport's _name() function](https://github.com/ProjectOpenSea/seaport/blob/fb1c3bf4c25a32ae90f776652a8b2b07d5df52cf/contracts/Seaport.sol#L95-L108).
+This is a common technique in Huff and was also made popular by [Seaport's \_name() function](https://github.com/ProjectOpenSea/seaport/blob/fb1c3bf4c25a32ae90f776652a8b2b07d5df52cf/contracts/Seaport.sol#L95-L108).
 
 Here is a diagram illustrating the "Seaport" method using the string "TKN":
 
