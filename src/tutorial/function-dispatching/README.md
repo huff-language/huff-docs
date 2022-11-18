@@ -87,7 +87,7 @@ There is one extremely important piece of code you will use in almost all of you
 0x00 calldataload 0xE0 shr
 ```
 
-This loads the four byte function selector onto the stack. `0x00 calldataload` will load 32 bytes starting from position 0 onto the stack (if the calldata is less than 32 bytes then it will be right padded with zeros). `0xE0 shr` right shifts the calldata by 224 bits, leaving 24 bits or 4 bytes remaining on the stack.
+This loads the four byte function selector onto the stack. `0x00 calldataload` will load 32 bytes starting from position 0 onto the stack (if the calldata is less than 32 bytes then it will be right padded with zeros). `0xE0 shr` right shifts the calldata by 224 bits, leaving 32 bits or 4 bytes remaining on the stack.
 
 Despite this seeming like a rather naive approach, for most contracts it is often the most effective. As this is one large `if` `else if` chain, you can optimize by placing "hot functions" towards the top of your chain. Functions towards the front will cost less gas to invoke, but be aware as your function approaches the end of the chain it can really get expensive!
 
