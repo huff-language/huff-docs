@@ -159,7 +159,7 @@ Please keep this behavior in mind when writing Huff contracts, especially when d
 
 ## Binary Search Dispatching
 
-Another method of function dispatching is by doing a binary search to find the correct selector. This is great for contracts with lots and lots of functions as it makes the dispatching cost more predictable / steady (No more checking every single branch of the `if esle` chain). In this method, we order our function selectors by their keccak, then pivot about a number of jump points until we reach the desired function. The number of jump points you include is up to you. The more jumps you add the more consistent your jump price will be, however, be mindful of the gas cost for comparisons. Generally, each split will add 16-18 bytes of additional code (remember there is a jump out of each pivot point).
+Another method of function dispatching is by doing a binary search to find the correct selector. This is great for contracts with lots and lots of functions as it makes the dispatching cost more predictable / steady (No more checking every single branch of the `if else` chain). In this method, we order our function selectors by their keccak, then pivot about a number of jump points until we reach the desired function. The number of jump points you include is up to you. The more jumps you add the more consistent your jump price will be, however, be mindful of the gas cost for comparisons. Generally, each split will add 16-18 bytes of additional code (remember there is a jump out of each pivot point).
 
 To implement this approach you will need to manually calculate the function selectors and order them by hand. But do not worry, this can be done easily with a script.
 
