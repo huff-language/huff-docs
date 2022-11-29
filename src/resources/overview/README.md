@@ -10,6 +10,7 @@ _These are resources built by the Huff Language core team and its contributors._
 - [huff-examples](https://github.com/huff-language/huff-examples): A collection of vigorously tested, exemplary Huff contracts for demonstration purposes.
 - [huff-breakage](https://github.com/huff-language/huff-breakage): Incorrect, Breaking, and Footgunned Huff Contracts.
 - [vscode-huff](https://github.com/huff-language/vscode-huff): A VSCode Extension that enables developers to use the Huff Language.
+- [hardhat-huff-deployer](https://github.com/rodrigoherrerai/huff-deployer): A Hardhat plugin to test Huff contracts.
 
 
 #### Third Party Huff Contracts
