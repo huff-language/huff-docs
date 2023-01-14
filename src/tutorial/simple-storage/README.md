@@ -62,7 +62,7 @@ Now lets define our storage slots:
 Onto the fun part, the logic. Remember from the addTwo example we can read calldata in 32 byte chunks using the `calldataload` opcode, lets use that knowledge to get read our uint256.
 
 ```
-#define macro SET_VALUE() = takes(0) returns(0) {
+#define macro SET_VALUE() = takes(1) returns(0) {
     // Read uint256 from calldata, remember to read from byte 4 to allow for the function selector! 
     0x04            // [0x04]
     calldataload    // [value]
@@ -77,7 +77,7 @@ After completing the previous examples we hope that writing Huff is all starting
 
 Next up is reading the stored value. 
 ```
-#define macro GET_VALUE() = takes(0) returns(0) {
+#define macro GET_VALUE() = takes(0) returns(1) {
     // Read uint256 from storage
     [VALUE]         // [value_ptr]
     sload           // [value]
@@ -126,7 +126,7 @@ Now all of it together!
 // External function macros
 
 // setValue(uint256)
-#define macro SET_VALUE() = takes(0) returns(0) {
+#define macro SET_VALUE() = takes(1) returns(0) {
     // Read uint256 from calldata, remember to read from byte 4 to allow for the function selector! 
     0x04            // [0x04]
     calldataload    // [value]
@@ -137,7 +137,7 @@ Now all of it together!
 }
 
 // getValue()
-#define macro GET_VALUE() = takes(0) returns(0) {
+#define macro GET_VALUE() = takes(0) returns(1) {
     // Read uint256 from storage
     [VALUE]         // [value_ptr]
     sload           // [value]
