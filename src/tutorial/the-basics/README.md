@@ -101,7 +101,7 @@ _Stack after operation:_ `[3,2]`
 
 **_Line 3:_** `add`
 
-The third line of our calls the add opcode. This will take the top two items from the stack as inputs and return the sum of those two numbers. For the inputs `[3,2]` the result is `[5]`
+The third line of ours calls the add opcode. This will take the top two items from the stack as inputs and return the sum of those two numbers. For the inputs `[3,2]` the result is `[5]`
 
 _Stack after operation_ `[5]`
 
