@@ -18,7 +18,7 @@ Now, with `huffup` installed and in your path, you can simply run `huffup` to in
 
 To verify for yourself that it's installed, run `huffc --help` to view the help menu.
 
-If you get an error, or it is not installing correctly, send a message in the `#help` channel of the Huff Language [Discord Server](https://discord.huff.sh).
+If you get an error, or it is not installing correctly, send a message in the `#help` channel of the Huff Language [Discord Server](https://discord.gg/C3gTvkFNRR).
 
 
 To get started compiling Huff Contracts, check out [compiling](https://docs.huff.sh/get-started/compiling/).
