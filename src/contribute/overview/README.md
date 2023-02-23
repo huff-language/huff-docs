@@ -1,8 +1,9 @@
 # Contributing
 
 ## Overview
+
 > Contributions are welcome for all huff-language ecosystem repositories, with [huff-rs](https://github.com/huff-language/huff-rs) being the primary repository for Huff Language Syntax and Compilation.
-    
+
 Welcome, and thanks for having an interest in contributing to the Huff Language and related repositories!
 
 All contributions are welcome! We want to make contributing to this project as easy and transparent as possible, whether it's:
@@ -13,10 +14,10 @@ All contributions are welcome! We want to make contributing to this project as e
 - Proposing new features
 - Becoming a maintainer
 
-
-Contributing to Huff Language is not just limited to writing code. It can mean a wide array of things, such as participating in discussions in our [discord server](https://discord.huff.sh/) or reporting issues.
+Contributing to Huff Language is not just limited to writing code. It can mean a wide array of things, such as participating in discussions in our [discord server](https://discord.gg/xabvMWDpEf) or reporting issues.
 
 ## Issues
+
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/huff-language/huff-rs/issues/new); it's that easy!
 
 To run examples, make sure you update git submodules to pull down the [huff-examples](./huff-examples/) submodule by running `git submodule update`.

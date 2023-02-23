@@ -1,6 +1,6 @@
 # Style Guide
 
-The following is a style-guide for the Huff-Std library. [Feedback and discussion](https://discord.huff.sh/) is welcome.
+The following is a style-guide for the Huff-Std library. [Feedback and discussion](https://discord.gg/xabvMWDpEf) is welcome.
 
 ## Formatting
 
@@ -84,11 +84,11 @@ Macros are also encouraged to include natspec comments where useful. For example
 /// @notice Multicall function entry point.
 /// @dev This macro should be placed alone under a function selector's jump label.
 ///
-///      Expected calldata: `bytes[]` containing valid ABI-encoded function calls
-///      as elements.
+/// Expected calldata: `bytes[]` containing valid ABI-encoded function calls
+/// as elements.
 ///
-///      Note: this macro only allows for multicalling functions that are within
-///      the contract it is invoked in.
+/// Note: this macro only allows for multicalling functions that are within
+/// the contract it is invoked in.
 ```
 
 ## Code Comments
@@ -102,7 +102,7 @@ Comments describing the functionality of a statement, macro, etc should be on th
 #define constant OWNER_SLOT = FREE_STORAGE_POINTER()
 ```
 
-Comments indicating the stack *after* an instruction should be on the right of the instruction. Instruction comments within the same code block should be aligned vertically with the right-most instruction comment. The right-most instruction comment should be one “tab” from the right of the instruction.
+Comments indicating the stack _after_ an instruction should be on the right of the instruction. Instruction comments within the same code block should be aligned vertically with the right-most instruction comment. The right-most instruction comment should be one “tab” from the right of the instruction.
 
 ```solidity
 0x20    // [value]
