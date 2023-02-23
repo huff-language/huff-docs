@@ -4,10 +4,7 @@ icon: home
 title: Home
 heroImage: /huff_transparent.png
 heroText: The Huff Docs.
-
----
-
-<div class="features">
+---<div class="features">
 
   <a class="feature" href="/get-started/overview">
     <h2>Getting Started</h2>
@@ -62,7 +59,7 @@ heroText: The Huff Docs.
       </a>
     </li>
     <li>
-      <a id="icon" href="https://discord.huff.sh/">
+      <a id="icon" href="https://discord.gg/xabvMWDpEf">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-discord"
           viewBox="0 0 16 16">
           <path
@@ -73,4 +70,3 @@ heroText: The Huff Docs.
 
   </ul>
 </div>
-
