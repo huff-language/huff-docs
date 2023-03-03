@@ -14,7 +14,7 @@ Open up your editor and create a file called `addTwo.huff`. Lets jump in.
 
 ### ABI declaration
 
-First things first. If you're coming from a higher level language like Solidity or Vyper you will be familiar with defining "external" or "public" functions. These allow you to interact with a contract externally by generating an ABI (Application Binary Interface). This describes a contracts entry points to external tools (We will dive more into this later). In this aspect Huff is exactly the same, you can declare functions that will appear in the abi at the top of the file.
+First things first. If you're coming from a higher level language like Solidity or Vyper you will be familiar with defining "external" or "public" functions. These allow you to interact with a contract externally by generating an ABI (Application Binary Interface). This describes a contract's entry points to external tools (We will dive more into this later). In this aspect Huff is exactly the same, you can declare functions that will appear in the abi at the top of the file.
 
 ```Huff
 #define function addTwo(uint256, uint256) view returns(uint256)
@@ -85,7 +85,7 @@ By putting the two together, we will send the following calldata to the contract
 
 **_Line 1:_** `0x00 calldataload`
 
-This line reads the first 32 bytes of calldata onto the stack. The `calldataload` opcode takes a calldata offset from the stack as it's input and returns 32bytes from that offset onto the stack.
+This line reads the first 32 bytes of calldata onto the stack. The `calldataload` opcode takes a calldata offset from the stack as its input and returns 32bytes from that offset onto the stack.
 
 _Stack after operation:_ `[2]`
 
@@ -119,7 +119,7 @@ This explains what `0x00 mstore` is there for. `mstore` takes two items from the
 
 As mentioned before, EVM contracts use an ABI to determine which function should be called. Currently, people interacting with addTwo's execution is linear, allowing only one functionality. Most contracts will want to have more than one function. In order to accommodate for this we will have to do a little bit of restructuring.
 
-The contract ABI specification dictates that contract calls will select which function they want to call by appending a 4 byte (function selector) to their calls. The 4 bytes are sliced from the start of the keccak of the function's abi definition. For example, `addTwo(uint256,uint256)`'s function selector will become `0x0f52d66e` (You can confirm this by using a command line tool such as [`cast`](https://book.getfoundry.sh/cast/)'s `sig` command, or online sites such as [keccak256 online](https://emn178.github.io/online-tools/keccak_256.html)). If you are curious as to what these look like you can find a registry of common 4byte function selectors in the [4 byte directory](https://www.4byte.directory/).
+The contract ABI specification dictates that contract calls will select which function they want to call by prepending a 4 byte (function selector) to their calls. The 4 bytes are sliced from the start of the keccak of the function's abi definition. For example, `addTwo(uint256,uint256)`'s function selector will become `0x0f52d66e` (You can confirm this by using a command line tool such as [`cast`](https://book.getfoundry.sh/cast/)'s `sig` command, or online sites such as [keccak256 online](https://emn178.github.io/online-tools/keccak_256.html)). If you are curious as to what these look like you can find a registry of common 4byte function selectors in the [4 byte directory](https://www.4byte.directory/).
 
 Calculating the function selector each time can be tedious. To make life easy, huff has an included builtin `__FUNC_SIG()`. If a function interface is declared within the file's current scope, it's function selector will be calculated and inlined for you. You can view more information about huff's builtin functions [here](/get-started/huff-by-example/#func-sig-func-def-string).
 
