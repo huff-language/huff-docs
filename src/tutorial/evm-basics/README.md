@@ -75,17 +75,17 @@ Instead of imagining a large 1 dimensional array like we did with memory, you ca
 
 #### Mnenomic Example
 ```plaintext
-PUSH32 0xdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeF // [dead_addr]
-PUSH1 0x00                                                                // [0x00, dead_addr]
-SSTORE                                                                    // []
+PUSH20 0xdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeF // [dead_addr]
+PUSH1 0x00                                        // [0x00, dead_addr]
+SSTORE                                            // []
 
-PUSH32 0xC0FFEE0000000000000000000000000000000000000000000000000000000000 // [coffee_addr]
-PUSH1 0x01                                                                // [0x01, coffee_addr]
-SSTORE                                                                    // []
+PUSH20 0xC0FFEE0000000000000000000000000000000000 // [coffee_addr]
+PUSH1 0x01                                        // [0x01, coffee_addr]
+SSTORE                                            // []
 
 // Storage:
-// 0x00 -> deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
-// 0x01 -> c0ffee0000000000000000000000000000000000000000000000000000000000
+// 0x00 -> deadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+// 0x01 -> c0ffee0000000000000000000000000000000000
 
 PUSH1 0x00
 SLOAD                                                                     // [dead_addr]
