@@ -14,6 +14,22 @@ _NOTE: This installs the `huffup` binary, but does not guarantee it is added to 
 
 Now, with `huffup` installed and in your path, you can simply run `huffup` to install the latest stable version of `huffc` (the huff compiler).
 
+### On Windows, build from the source
+
+If you use Windows, you need to build from the source to get huff.
+
+Download and run `rustup-init` from [rustup.rs](https://win.rustup.rs/x86_64). It will start the installation in a console.
+
+If you encounter an error, it is most likely the case that you do not have the VS Code Installer which you can [download here](https://visualstudio.microsoft.com/downloads/) and install.
+
+After this, run the following to build huff from the source:
+
+```sh
+cargo install --git https://github.com/huff-language/huff-rs.git huff_cli --bins --locked
+```
+
+To update from the source, run the same command again.
+
 🎉 TADA, Huff is installed! 🎉
 
 To verify for yourself that it's installed, run `huffc --help` to view the help menu.
