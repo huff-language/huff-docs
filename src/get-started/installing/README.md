@@ -24,7 +24,7 @@ If you encounter an error, it is most likely the case that you do not have the V
 
 After this, run the following to build huff from the source:
 
-```sh
+```shell
 cargo install --git https://github.com/huff-language/huff-rs.git huff_cli --bins --locked
 ```
 
