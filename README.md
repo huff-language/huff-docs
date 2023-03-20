@@ -6,6 +6,8 @@
 
 ## Usage
 
+Install dependencies by running `yarn install`.
+
 Build the vuepress site by running `yarn build`.
 
 To run the site locally, execute `yarn dev`.
