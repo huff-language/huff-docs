@@ -28,8 +28,8 @@ The next thing we are going to create is the `MAIN macro`. This serves a single 
 
 ```Huff
 #define macro MAIN() = takes(0) returns(0) {
-    0x00 calldataload     // [number1] // load first 32 bytes onto the stack - number 1
-    0x20 calldataload     // [number2] // load second 32 bytes onto the stack - number 2
+    0x04 calldataload     // [number1] // load first 32 bytes after function selector onto the stack - number 1
+    0x24 calldataload     // [number2] // load second 32 bytes onto the stack - number 2
     add                   // [number1+number2] // add number 1 and 2 and put the result onto the stack
 
     0x00 mstore           // place [number1 + number2] in memory
@@ -45,17 +45,17 @@ Go ahead and copy the above macro into your `addTwo.huff` file. Run `huffc addTw
 
 Congratulations you've just compiled your first contract!
 
-The bytecode output of the compiler will echo the following into the console `600f8060093d393df36000356020350160005260206000f3`.
+The bytecode output of the compiler will echo the following into the console `600f8060093d393df36004356024350160005260206000f3`.
 
 When you deploy this contract code it will have the runtime bytecode of the main macro we just created! In the above snippet you will find it after the first `f3` (the preceding bytecode is boiler plate constructor logic.)
-That leaves us with this: `6000356020350160005260206000f3`
+That leaves us with this: `6004356024350160005260206000f3`
 Below, this example dissembles what you have just created!
 
 ```
  BYTECODE          MNEMONIC         STACK                 ACTION
- 60 00          // PUSH1 0x00       // [0x00]
+ 60 04          // PUSH1 0x04       // [0x04]
  35             // CALLDATALOAD     // [number1]          Store the first 32 bytes on the stack
- 60 20          // PUSH1 0x20       // [0x20, number1]
+ 60 24          // PUSH1 0x24       // [0x24, number1]
  35             // CALLDATALOAD     // [number2, number1] Store the second 32 bytes on the stack
  01             // ADD              // [number2+number1]  Take two stack inputs and add the result
  60 00          // PUSH1 0x00       // [0x0, (n2+n1)]
@@ -83,17 +83,17 @@ By putting the two together, we will send the following calldata to the contract
 
 ### Execution Walk Through
 
-**_Line 1:_** `0x00 calldataload`
+**_Line 1:_** `0x04 calldataload`
 
-This line reads the first 32 bytes of calldata onto the stack. The `calldataload` opcode takes a calldata offset from the stack as its input and returns 32bytes from that offset onto the stack.
+This line reads the first 32 bytes of calldata following the 4 byte function selector onto the stack. The `calldataload` opcode takes a calldata offset from the stack as its input and returns 32bytes from that offset onto the stack.
 
 _Stack after operation:_ `[2]`
 
 ---
 
-**_Line 2:_** `0x20 calldataload`
+**_Line 2:_** `0x24 calldataload`
 
-Similarly, the second line reads the second 32 bytes of our calldata. By pushing the hex number `0x20` (32) onto the triggering `calldataload`.
+Similarly, the second line reads the second 32 bytes of our calldata after the function selector. By pushing the hex number `0x24` (36) onto the triggering `calldataload`.
 
 _Stack after operation:_ `[3,2]`
 
