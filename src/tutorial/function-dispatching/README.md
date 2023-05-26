@@ -93,7 +93,7 @@ Despite this seeming like a rather naive approach, for most contracts it is ofte
 
 This method seems naive, however this is exactly how Vyper and Solidity\* implement linear dispatching. If you want it to be cheaper to call, just move it higher up in the contract!
 
-\* Solidity only implements this method if there are less than 4 functions in a contract.
+\* Solidity implements this method when there are fewer than 5 functions, or the number of optimizer runs is small. Otherwise, it will use binary search dispatching.
 
 You may be wondering what the series of jump labels followed by implementation macros mean. A good mental model is that the entire of your contract exists within your MAIN macro. If a macro is not referred to within main or nested within a macro that is invoked within MAIN then it will not be included in your contract. In reality the above contract when compiled looks like this:
 
