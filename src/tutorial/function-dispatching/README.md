@@ -128,9 +128,9 @@ For example:
     dup1 __FUNC_SIG(returnTwo) eq returnTwoJump jumpi
 
     // Macros
-    returnTwo:
+    returnTwoJump:
         RETURN_TWO()
-    returnOne:
+    returnOneJump:
         RETURN_ONE()
 }
 ```
@@ -148,9 +148,9 @@ One way we can handle no valid function selector being found is by inserting `0x
 
     0x00 0x00 revert
 
-    returnTwo:
+    returnTwoJump:
         RETURN_TWO()
-    returnOne:
+    returnOneJump:
         RETURN_ONE()
 }
 ```
