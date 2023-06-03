@@ -347,7 +347,7 @@ Functions can accept arguments to be "called" inside the macro or passed as a re
 
 Several builtin functions are provided by the Huff compiler:
 #### `__FUNC_SIG(<func_def|string>)`
-At compile time, the invocation of `__FUNC_SIG` is substituted with `PUSH4 function_selector`, where `function_selector` is the 4 byte function selector of the passed function definition or string. If a string is passed, it must represent a valid function signature i.e. `"test(address, uint256)"`
+At compile time, the invocation of `__FUNC_SIG` is substituted with `PUSH4 function_selector`, where `function_selector` is the 4 byte function selector of the passed function definition or string. If a string is passed, it must represent a valid function signature i.e. `"test(address,uint256)"`
 
 #### `__EVENT_HASH(<event_def|string>)`
 At compile time, the invocation of `__EVENT_HASH` is substituted with `PUSH32 event_hash`, where `event_hash` is the selector hash of the passed event definition or string. If a string is passed, it must represent a valid event signature i.e. `"TestEvent(uint256, address indexed)"`
