@@ -29,10 +29,10 @@ The next thing we are going to create is the `MAIN macro`. This serves a single 
 ```Huff
 #define macro MAIN() = takes(0) returns(0) {
     0x00 calldataload     // [number1] // load first 32 bytes onto the stack - number 1
-    0x20 calldataload     // [number2] // load second 32 bytes onto the stack - number 2
+    0x20 calldataload     // [number2, number1] // load second 32 bytes onto the stack - number 2
     add                   // [number1+number2] // add number 1 and 2 and put the result onto the stack
 
-    0x00 mstore           // place [number1 + number2] in memory
+    0x00 mstore           // place [number1+number2] in memory
     0x20 0x00 return      // return the result
 }
 ```
@@ -45,10 +45,10 @@ Go ahead and copy the above macro into your `addTwo.huff` file. Run `huffc addTw
 
 Congratulations you've just compiled your first contract!
 
-The bytecode output of the compiler will echo the following into the console `600f8060093d393df36000356020350160005260206000f3`.
+The bytecode output of the compiler will echo the following into the console `600c8060093d393df35f35602035015f5260205ff3`.
 
 When you deploy this contract code it will have the runtime bytecode of the main macro we just created! In the above snippet you will find it after the first `f3` (the preceding bytecode is boiler plate constructor logic.)
-That leaves us with this: `6000356020350160005260206000f3`
+That leaves us with this: `5f35602035015f5260205ff3`
 Below, this example dissembles what you have just created!
 
 ```
