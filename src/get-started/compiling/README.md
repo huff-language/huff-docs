@@ -12,7 +12,7 @@ Below we outline the few steps it takes to compile a Huff contract.
    #define macro MAIN() = {
       // Load our numbers from calldata and add them together.
       0x04 calldataload // [number1]
-      0x24 calldataload // [number2]
+      0x24 calldataload // [number2, number1]
       add               // [number1+number2]
 
       // Return our new number.
@@ -30,7 +30,7 @@ Below we outline the few steps it takes to compile a Huff contract.
    This will output something similar to:
 
    ```plaintext
-   61000f8061000d6000396000f36004356024350160005260206000f3
+   600d8060093d393df3600435602435015f5260205ff3
    ```
 
 You can find an in-depth explanation of this contract in [The Basics](https://docs.huff.sh/tutorial/the-basics) tutorial.
