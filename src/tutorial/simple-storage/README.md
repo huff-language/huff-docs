@@ -70,6 +70,7 @@ Onto the fun part, the logic. Remember from the addTwo example we can read calld
     // Get pointer and store
     [VALUE]         // [value_ptr, value]
     sstore          // []
+    stop            // []
 }
 ```
 
@@ -134,6 +135,7 @@ Now all of it together!
     // Get pointer and store
     [VALUE]         // [value_ptr, value]
     sstore          // []
+    stop            // []
 }
 
 // getValue()
