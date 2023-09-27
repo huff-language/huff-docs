@@ -62,7 +62,7 @@ Notice in the previous example that 3 adjacent words (32 bytes each) are being s
 If we take the length (`0x0d`) and the bytes (`0x48656c6c6f2c20776f726c6421`), and concatenate them, we would get: `0x0d48656c6c6f2c20776f726c6421` which becomes left padded value of:
 
 ```
-0x000000000000000000000000000000000000000d48656c6c6f2c20776f726c6421
+0x0000000000000000000000000000000000000d48656c6c6f2c20776f726c6421
 ```
 
 Now, instead of starting the second word at `0x20`, if we offset that by 13 bytes (starting at `0x2d` instead of `0x20`) then it lines up so that the `0d` falls in the right most (lowest) bits of the second word (location 0x3F) and the remaining bytes start immediately in the first leftmost (highest) byte of the third word (location 0x40).
