@@ -140,6 +140,9 @@ To accept external calls for multiple functions we will have to extract our `add
 
     // Jump to the implementation of the ADD_TWO function if the calldata matches the function selector
     __FUNC_SIG(addTwo) eq addTwo jumpi
+    
+    // Stop execution if the calldata doesn't match the function selector
+    stop
 
     addTwo:
         ADD_TWO()
