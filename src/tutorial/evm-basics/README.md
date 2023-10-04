@@ -43,7 +43,7 @@ they are forgotten.
 <p align="center"><img src="/memory.png" width="640px"/></p>
 <figcaption align = "center"><b>Fig.4 - Memory from <i>Ethereum EVM Illustrated</i> by Takenobu T.</b></figcaption>
 
-#### Mnenomic Example
+#### Mnemonic Example
 ```plaintext
 PUSH2 0x1000 // [0x1000]
 PUSH1 0x00   // [0x00, 0x1000]
@@ -73,7 +73,7 @@ Instead of imagining a large 1 dimensional array like we did with memory, you ca
 <p align="center"><img src="/contract_acc.png" width="320px"/></p>
 <figcaption align = "center"><b>Fig.5 - Contract Account from <i>Ethereum EVM Illustrated</i> by Takenobu T.</b></figcaption>
 
-#### Mnenomic Example
+#### Mnemonic Example
 ```plaintext
 PUSH20 0xdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeFdEaDbEeF // [dead_addr]
 PUSH1 0x00                                        // [0x00, dead_addr]
