@@ -45,27 +45,25 @@ Go ahead and copy the above macro into your `addTwo.huff` file. Run `huffc addTw
 
 Congratulations you've just compiled your first contract!
 
-The bytecode output of the compiler will echo the following into the console `600f8060093d393df36000356020350160005260206000f3`.
+The bytecode output of the compiler will echo the following into the console `600c8060093d393df35f35602035015f5260205ff3`.
 
-When you deploy this contract code it will have the runtime bytecode of the main macro we just created! In the above snippet you will find it after the first `f3` (the preceding bytecode is boiler plate constructor logic.)
-That leaves us with this: `6000356020350160005260206000f3`
-Below, this example dissembles what you have just created!
+When you deploy this contract code it will have the runtime bytecode of the main macro we just created! In the above snippet you will find it after the first `f3` (the preceding bytecode is boiler plate constructor logic). That leaves us with this: `5f35602035015f5260205ff3`. Below, this example dissembles what you have just created!
 
 ```
  BYTECODE          MNEMONIC         STACK                 ACTION
- 60 00          // PUSH1 0x00       // [0x00]
+ 5f             // PUSH0            // [0x00]
  35             // CALLDATALOAD     // [number1]          Store the first 32 bytes on the stack
  60 20          // PUSH1 0x20       // [0x20, number1]
  35             // CALLDATALOAD     // [number2, number1] Store the second 32 bytes on the stack
  01             // ADD              // [number2+number1]  Take two stack inputs and add the result
- 60 00          // PUSH1 0x00       // [0x0, (n2+n1)]
+ 5f             // PUSH0            // [0x0, (n2+n1)]
  52             // MSTORE           // []                 Store (n2+n1) in the first 32 bytes of memory
  60 20          // PUSH1 0x20       // [0x20]
- 60 00          // PUSH1 0x00       // [0x00, 0x20]
+ 5f             // PUSH0            // [0x00, 0x20]
  f3             // RETURN           // []                 Return the first 32 bytes of memory
 ```
 
-If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?unit=Wei&codeType=Bytecode&code='~3560203501~526020~f3'~6000%01~_) (pass in the calldata `0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002` and click RUN to get started). This calldata is the numbers 1 and 2, both padded to 32 bytes. After running this snippet, you should end up with a return value of `0000000000000000000000000000000000000000000000000000000000000003`. Which is expected! `addTwo.huff` successfully added the numbers 1 and 2, returning 3! If you are new to working with assembly, I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning.
+If you want to step through the execution yourself you can check out this snippet interactively in [evm.codes](https://www.evm.codes/playground?fork=shanghai&unit=Wei&callData=0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002&codeType=Bytecode&code='5f35602035015f5260205ff3'_) (pass in the calldata `0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002` and click `Run` to get started). This calldata is the numbers 1 and 2, both padded to 32 bytes. After running this snippet, you should end up with a return value of `0000000000000000000000000000000000000000000000000000000000000003`. Which is expected! `addTwo.huff` successfully added the numbers 1 and 2, returning 3! If you are new to working with assembly, I strongly suggest you do this as visualizing the individual instructions helps tremendously with learning.
 
 In the next section we will walk through your contract's execution given that you provide the calldata for 2 + 3. Encoded into uint256's (32 bytes) the number 2 would become `0000000000000000000000000000000000000000000000000000000000000002` and the number 3 would become `0000000000000000000000000000000000000000000000000000000000000003`.
 
