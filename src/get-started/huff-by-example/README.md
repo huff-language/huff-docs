@@ -521,6 +521,12 @@ Available decorators include:
 * `calldata` - Set the calldata for the transaction environment. Accepts a single string of calldata bytes.
 * `value` - Set the callvalue for the transaction environment. Accepts a single literal.
 
+#### Testing with functions
+
+Huff functions are appended at the end of the contract bytecode, which may conflict with the execution of the tests, as function code may be executed after them.
+
+Always include a return statement at the end of each of your tests to ensure compatibility with functions.
+
 #### Example
 ```plaintext
 #include "huffmate/utils/Errors.huff"
@@ -536,5 +542,7 @@ Available decorators include:
     0x00 calldataload   // [0x01]
     callvalue           // [0x01, 0x01]
     eq ASSERT()
+
+    0x00 0x00 return
 }
 ```
